@@ -1,3 +1,5 @@
+import * as pkgJSON from "../package.json";
+
 export * from "./Client";
 export * as Constants from "./Constants";
 
@@ -29,3 +31,5 @@ export * from "./structures/Webhook";
 
 export * as Endpoints from "./rest/Endpoints";
 export * from "./rest/RequestHandler";
+
+export const VERSION = pkgJSON.version;
