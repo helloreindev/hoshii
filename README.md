@@ -1,5 +1,7 @@
 # Hoshii
 
+- Note: **This library isn't in stable state yet. Any form of bugs are expected**
+
 **Hoshii** is a NodeJS [Guilded](https://guilded.gg) library.
 
 - **Guilded Server**: [guilded.gg/hellorein](https://www.guilded.gg/hellorein)
