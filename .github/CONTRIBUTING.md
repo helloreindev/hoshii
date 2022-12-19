@@ -8,7 +8,7 @@ Issue such as bug reports, feature requests, or questions are welcome. Please ke
 
 - **Before submitting an issue, make sure the issue hasn't exist.**
 
-To keep things organised, we only allow **one** issue opened. Any issues that are marked "duplicated" or overlap will be close. You may use the issue search box, as well as the label tags to check if an issue has been submitted before. 
+To keep things organised, we only allow **one** issue opened. Any issues that are marked "duplicated" or overlap will be close. You may use the issue search box, as well as the label tags to check if an issue has been submitted before.
 
 - **Try to include information as detail as possible**
 
@@ -26,4 +26,4 @@ Keeping a quality of a code has been part of the development environment. We acc
 
 - **Run test before opening a pull request**
 
-Automated tests are an essential part of a code quality and reliable codebase. They helped to make the code more sustainable by ensuring it is safe to reorganise (or refactor) the code is various ways. 
+Automated tests are an essential part of a code quality and reliable codebase. They helped to make the code more sustainable by ensuring it is safe to reorganise (or refactor) the code is various ways.
