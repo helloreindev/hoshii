@@ -1,0 +1,53 @@
+{
+  "name": "hoshii",
+  "version": "0.0.1",
+  "description": "A NodeJS Guilded Library",
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint --ext \".ts\" --ignore-path .gitignore . && prettier --check .",
+    "lint:fix": "eslint --ext \".ts\" --ignore-path .gitignore . --fix && prettier --write --list-different ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helloreindev/hoshii.git"
+  },
+  "keywords": [
+    "guilded",
+    "guilded-api",
+    "api",
+    "javascript",
+    "typescript",
+    "hoshii",
+    "library",
+    "js",
+    "ts"
+  ],
+  "author": "Reinhardt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helloreindev/hoshii/issues"
+  },
+  "homepage": "https://github.com/helloreindev/hoshii#readme",
+  "dependencies": {
+    "undici": "^5.14.0",
+    "ws": "^8.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.12",
+    "@types/pako": "^2.0.0",
+    "@types/ws": "^8.5.3",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
+    "eslint": "^8.29.0",
+    "eslint-plugin-sort-class-members": "^1.16.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "prettier": "^2.8.1",
+    "typescript": "^4.9.4"
+  }
+}
