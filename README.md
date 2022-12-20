@@ -1,11 +1,13 @@
 # Hoshii
 
-- Note: **This library isn't in stable state yet. Any form of bugs are expected**
+- Note: **This library is still in protoype version. Bugs are expected**
 
 **Hoshii** is a NodeJS [Guilded](https://guilded.gg) library.
 
-- **Guilded Server**: [guilded.gg/hellorein](https://www.guilded.gg/hellorein)
+- **Documentation:** Coming Soon
 - **GitHub**: [github.com/helloreindev/hoshii](https://github.com/helloreindev/hoshii)
+- **Guilded Server**: [guilded.gg/hellorein](https://www.guilded.gg/hellorein)
+- **NPM:** [npmjs.com/package/hoshii](https://npmjs.com/package/hoshii)
 
 ## Installation
 
