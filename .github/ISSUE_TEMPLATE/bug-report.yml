@@ -41,7 +41,7 @@ body:
       placeholder: You may drag and drop media files into this box.
     validations:
       required: false
-  - type: textarea
+  - type: input
     attributes:
       label: Hoshii Version
       description: The version you encountered the bug on.
