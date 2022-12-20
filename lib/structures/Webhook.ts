@@ -27,6 +27,10 @@ export interface WebhookEditOptions {
     name: string;
 }
 
+export interface WebhookFilter {
+    channelID?: string;
+}
+
 export class Webhook extends Base<string> {
     public channelID: string;
 

@@ -15,6 +15,12 @@ export interface CalendarEventCancellation {
     description?: string;
 }
 
+export interface CalendarEventFilter {
+    after?: string;
+    before?: string;
+    limit?: number;
+}
+
 export interface CalendarEventData extends BaseData<number> {
     cancellation: CalendarEventCancellation | null;
     channelID: string;
@@ -35,7 +41,7 @@ export interface CalendarEventData extends BaseData<number> {
     url: string | null;
 }
 
-export interface CalendarEventEditOptions {
+export interface CalendarEventOptions {
     color?: number;
     decsription?: string;
     duration?: number;
@@ -162,7 +168,7 @@ export class CalendarEvent extends Base<number> {
      * @param options The options to edit the calendar event with
      * @returns {Promise<CalendarEvent>}
      */
-    public edit(options: CalendarEventEditOptions): Promise<CalendarEvent> {
+    public edit(options: CalendarEventOptions): Promise<CalendarEvent> {
         return this.client.editCalendarEvent(this.channelID, this.id, options);
     }
 
