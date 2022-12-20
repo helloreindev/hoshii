@@ -46,3 +46,5 @@ body:
       label: Hoshii Version
       description: The version you encountered the bug on.
       placeholder: v0.0.2 or 0.0.2
+    validations:
+      required: true
