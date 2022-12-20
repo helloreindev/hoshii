@@ -29,17 +29,17 @@ const Hoshii = require("hoshii");
 const client = new Hoshii.Client("TOKEN");
 
 client.on("ready", () => {
-	console.log(`${client.user.name} is Ready!`);
+  console.log(`${client.user.name} is Ready!`);
 });
 
 client.on("chatMessageCreate", (message) => {
-	if (message.member.bot) return;
+  if (message.member.bot) return;
 
-	if (message.content === "!ping") {
-		return client.createChannelMessage(message.channelID, {
-			content: "Pong!"
-		});
-	}
+  if (message.content === "!ping") {
+    return client.createChannelMessage(message.channelID, {
+      content: "Pong!",
+    });
+  }
 });
 
 client.connect();
