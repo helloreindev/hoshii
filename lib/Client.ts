@@ -29,13 +29,18 @@ import {
     CalendarEventRSVPsResponse,
     ServerWebhooksResponse,
     ServerMembersResponse,
+    ForumTopicCommentsResponse,
 } from "./Constants";
 import { RequestHandler, RESTOptions } from "./rest/RequestHandler";
 import TypedCollection from "./utils/TypedCollection";
 import { RawUser, User } from "./structures/User";
 import { RawServer, Server } from "./structures/Server";
 import { ClientUser } from "./structures/ClientUser";
-import { Webhook, WebhookEditOptions, WebhookFilter } from "./structures/Webhook";
+import {
+    Webhook,
+    WebhookEditOptions,
+    WebhookFilter,
+} from "./structures/Webhook";
 import * as Endpoints from "./rest/Endpoints";
 import { GatewayHandler } from "./gateway/GatewayHandler";
 import { ServerChannelEditOptions } from "./structures/ServerChannel";
@@ -1690,6 +1695,74 @@ export class Client extends TypedEmitter<ClientEvents> {
     }
 
     /**
+     * Get a forum topic comment
+     * @param channelID The ID of the channel
+     * @param topicID The ID of the forum topic
+     * @param commentID The ID of the forum topic comment
+     * @returns {Promise<ForumTopicComment>}
+     */
+    public getForumTopicComment(
+        channelID: string,
+        topicID: number,
+        commentID: number
+    ): Promise<ForumTopicComment> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        if (!topicID) {
+            throw new Error("No topic ID provided");
+        }
+
+        if (!commentID) {
+            throw new Error("No comment ID provided");
+        }
+
+        return this.requestHandler
+            .authRequest<ForumTopicCommentResponse>({
+                endpoint: Endpoints.ForumTopicComment(
+                    channelID,
+                    topicID,
+                    commentID
+                ),
+                method: "GET",
+            })
+            .then(
+                (data) => new ForumTopicComment(data.forumTopicComment, this)
+            );
+    }
+
+    /**
+     * Get forum topic comments
+     * @param channelID The ID of the channel
+     * @param topicID The ID of the topic
+     * @returns {Promise<Array<ForumTopicComment>>}
+     */
+    public getForumTopicComments(
+        channelID: string,
+        topicID: number
+    ): Promise<Array<ForumTopicComment>> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        if (!topicID) {
+            throw new Error("No topic ID provided");
+        }
+
+        return this.requestHandler
+            .authRequest<ForumTopicCommentsResponse>({
+                endpoint: Endpoints.ForumTopicComments(channelID, topicID),
+                method: "GET",
+            })
+            .then((data) =>
+                data.forumTopicComments.map(
+                    (comment) => new ForumTopicComment(comment, this)
+                )
+            );
+    }
+
+    /**
      * Get forum topics
      * @param channelID The ID of the channel
      * @param filter The options to filter the output
@@ -1840,10 +1913,16 @@ export class Client extends TypedEmitter<ClientEvents> {
             throw new Error("No server ID provided");
         }
 
-        return this.requestHandler.authRequest<ServerMembersResponse>({
-            endpoint: Endpoints.ServerMembers(serverID),
-            method: "GET",
-        }).then((data) => data.members.map((member) => this.util.updateMember(serverID, member.user.id, member)));
+        return this.requestHandler
+            .authRequest<ServerMembersResponse>({
+                endpoint: Endpoints.ServerMembers(serverID),
+                method: "GET",
+            })
+            .then((data) =>
+                data.members.map((member) =>
+                    this.util.updateMember(serverID, member.user.id, member)
+                )
+            );
     }
 
     /**
@@ -1892,7 +1971,10 @@ export class Client extends TypedEmitter<ClientEvents> {
      * @param filter The options to filter the output
      * @returns {Promise<Array<Webhook>>}
      */
-    public getServerWebhooks(serverID: string, filter: WebhookFilter): Promise<Array<Webhook>> {
+    public getServerWebhooks(
+        serverID: string,
+        filter: WebhookFilter
+    ): Promise<Array<Webhook>> {
         if (!serverID) {
             throw new Error("No server ID provided");
         }
@@ -1903,11 +1985,15 @@ export class Client extends TypedEmitter<ClientEvents> {
             if (filter.channelID) query.set("channelId", filter.channelID);
         }
 
-        return this.requestHandler.authRequest<ServerWebhooksResponse>({
-            endpoint: Endpoints.ServerWebhooks(serverID),
-            method: "GET",
-            query,
-        }).then((data) => data.webhooks.map((webhook) => new Webhook(webhook, this)));
+        return this.requestHandler
+            .authRequest<ServerWebhooksResponse>({
+                endpoint: Endpoints.ServerWebhooks(serverID),
+                method: "GET",
+                query,
+            })
+            .then((data) =>
+                data.webhooks.map((webhook) => new Webhook(webhook, this))
+            );
     }
 
     /**
