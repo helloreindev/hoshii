@@ -15,6 +15,11 @@ export interface DocData extends BaseData<number> {
     updatedBy: string | null;
 }
 
+export interface DocsFilter {
+    before?: string;
+    limit?: number;
+}
+
 export interface DocOptions {
     content: string;
     title: string;

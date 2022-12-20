@@ -11,7 +11,7 @@ import {
     ForumTopicResponse,
     GATEWAY_EVENTS,
     ListItemResponse,
-    MessageResponse,
+    ChannelMessageResponse,
     ServerBanResponse,
     ServerChannelResponse,
     ServerMemberResponse,
@@ -21,13 +21,21 @@ import {
     ServerResponse,
     ServerWebhookResponse,
     SocialLink,
+    ChannelMessagesResponse,
+    DocsResponse,
+    ForumTopicsResponse,
+    ListItemsResponse,
+    CalendarEventsResponse,
+    CalendarEventRSVPsResponse,
+    ServerWebhooksResponse,
+    ServerMembersResponse,
 } from "./Constants";
 import { RequestHandler, RESTOptions } from "./rest/RequestHandler";
 import TypedCollection from "./utils/TypedCollection";
 import { RawUser, User } from "./structures/User";
 import { RawServer, Server } from "./structures/Server";
 import { ClientUser } from "./structures/ClientUser";
-import { Webhook, WebhookEditOptions } from "./structures/Webhook";
+import { Webhook, WebhookEditOptions, WebhookFilter } from "./structures/Webhook";
 import * as Endpoints from "./rest/Endpoints";
 import { GatewayHandler } from "./gateway/GatewayHandler";
 import { ServerChannelEditOptions } from "./structures/ServerChannel";
@@ -40,14 +48,16 @@ import {
 import { Util } from "./utils/Util";
 import {
     CalendarEvent,
-    CalendarEventEditOptions,
+    CalendarEventOptions,
+    CalendarEventFilter,
 } from "./structures/CalendarEvent";
 import {
     CalendarEventRSVP,
     CalendarEventRSVPEditOptions,
 } from "./structures/CalendarEventRSVP";
-import { Doc, DocOptions } from "./structures/Doc";
+import { Doc, DocOptions, DocsFilter } from "./structures/Doc";
 import {
+    ChannelMessagesFilter,
     ChatMessage,
     MessageCreateOptions,
     MessageEditOptions,
@@ -58,8 +68,14 @@ import {
     ForumTopicCommentOptions,
 } from "./structures/ForumTopicComment";
 import { ForumChannel } from "./structures/ForumChannel";
-import { ForumTopic, ForumTopicOptions } from "./structures/ForumTopic";
+import {
+    ForumTopic,
+    ForumTopicsFilter,
+    ForumTopicOptions,
+} from "./structures/ForumTopic";
 import { TextChannel } from "./structures/TextChannel";
+import { DocChannel } from "./structures/DocChannel";
+import { CalendarChannel } from "./structures/CalendarChannel";
 
 export interface ClientOptions {
     collectionLimits: CollectionLimits;
@@ -387,6 +403,37 @@ export class Client extends TypedEmitter<ClientEvents> {
     }
 
     /**
+     * Create a calendar event
+     * @param channelID The ID of the channel
+     * @param options The options to create the event with
+     * @returns {Promise<CalendarEvent>}
+     */
+    public createCalendarEvent(
+        channelID: string,
+        options: CalendarEventOptions
+    ): Promise<CalendarEvent> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        if (!options) {
+            throw new Error("No options provided");
+        }
+
+        if (typeof options !== "object") {
+            throw new Error("`options` must be an object");
+        }
+
+        return this.requestHandler
+            .authRequest<CalendarEventResponse>({
+                body: options,
+                endpoint: Endpoints.ChannelEvents(channelID),
+                method: "POST",
+            })
+            .then((data) => new CalendarEvent(data.calendarEvent, this));
+    }
+
+    /**
      * Create a channel message
      * @param channelID The ID of the channel
      * @param options The message options
@@ -411,7 +458,7 @@ export class Client extends TypedEmitter<ClientEvents> {
         }
 
         return this.requestHandler
-            .authRequest<MessageResponse>({
+            .authRequest<ChannelMessageResponse>({
                 body: {
                     content: options.content,
                     embeds: options.embeds,
@@ -423,6 +470,34 @@ export class Client extends TypedEmitter<ClientEvents> {
                 method: "POST",
             })
             .then((data) => new ChatMessage<T>(data.message, this));
+    }
+
+    /**
+     * Create a doc
+     * @param channelID The ID of the channel
+     * @param options The option to create the doc with
+     * @returns {Promise<Doc>}
+     */
+    public createDoc(channelID: string, options: DocOptions): Promise<Doc> {
+        if (channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        if (!options) {
+            throw new Error("No options provided");
+        }
+
+        if (typeof options !== "object") {
+            throw new Error("`options` must be an object");
+        }
+
+        return this.requestHandler
+            .authRequest<DocResponse>({
+                body: options,
+                endpoint: Endpoints.ChannelDocs(channelID),
+                method: "POST",
+            })
+            .then((data) => new Doc(data.doc, this));
     }
 
     /**
@@ -905,7 +980,7 @@ export class Client extends TypedEmitter<ClientEvents> {
     public editCalendarEvent(
         channelID: string,
         eventID: number,
-        options: CalendarEventEditOptions
+        options: CalendarEventOptions
     ): Promise<CalendarEvent> {
         if (!channelID) {
             throw new Error("No channel ID provided");
@@ -1012,7 +1087,7 @@ export class Client extends TypedEmitter<ClientEvents> {
         }
 
         return this.requestHandler
-            .authRequest<MessageResponse>({
+            .authRequest<ChannelMessageResponse>({
                 body: options,
                 endpoint: Endpoints.ChannelMessage(channelID, messageID),
                 method: "PUT",
@@ -1319,6 +1394,131 @@ export class Client extends TypedEmitter<ClientEvents> {
     }
 
     /**
+     * Get a calendar event RSVP
+     * @param channelID The ID of the channel
+     * @param eventID The ID of the event
+     * @param memberID The ID of the member
+     * @returns {Promise<CalendarEventRSVP>}
+     */
+    public getCalendarEventRSVP(
+        channelID: string,
+        eventID: number,
+        memberID: string
+    ): Promise<CalendarEventRSVP> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        if (!eventID) {
+            throw new Error("No event ID provided");
+        }
+
+        if (!memberID) {
+            throw new Error("No member ID provided");
+        }
+
+        return this.requestHandler
+            .authRequest<CalendarEventRSVPResponse>({
+                endpoint: Endpoints.ChannelEventRSVP(
+                    channelID,
+                    eventID,
+                    memberID
+                ),
+                method: "GET",
+            })
+            .then(
+                (data) =>
+                    (
+                        this.servers
+                            .get(data.calendarEventRsvp.serverId)
+                            .channels.get(channelID) as CalendarChannel
+                    )?.scheduledEvents
+                        .get(eventID)
+                        ?.rsvps.update(data.calendarEventRsvp) ??
+                    new CalendarEventRSVP(data.calendarEventRsvp, this)
+            );
+    }
+
+    /**
+     * Get calendar event RSVPs
+     * @param channelID The ID of the channel
+     * @param eventID The ID of the event
+     * @returns {Promise<Array<CalendarEventRSVP>>}
+     */
+    public getCalendarEventRSVPs(
+        channelID: string,
+        eventID: number
+    ): Promise<Array<CalendarEventRSVP>> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        if (!eventID) {
+            throw new Error("No event ID provided");
+        }
+
+        return this.requestHandler
+            .authRequest<CalendarEventRSVPsResponse>({
+                endpoint: Endpoints.ChannelEventRSVPS(channelID, eventID),
+                method: "GET",
+            })
+            .then((data) =>
+                data.calendarEventRsvps.map(
+                    (event) =>
+                        (
+                            this.servers
+                                .get(event.serverId)
+                                .channels.get(channelID) as CalendarChannel
+                        )?.scheduledEvents
+                            .get(eventID)
+                            ?.rsvps.update(event) ??
+                        new CalendarEventRSVP(event, this)
+                )
+            );
+    }
+
+    /**
+     * Get calendar events
+     * @param channelID The ID of the channel
+     * @param filter The options to filter the output
+     * @returns {Promise<Array<CalendarEvent>>}
+     */
+    public getCalendarEvents(
+        channelID: string,
+        filter: CalendarEventFilter
+    ): Promise<Array<CalendarEvent>> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        const query = new URLSearchParams();
+
+        if (filter) {
+            if (filter.after) query.set("after", filter.after.toString());
+            if (filter.before) query.set("before", filter.before.toString());
+            if (filter.limit) query.set("limit", filter.limit.toString());
+        }
+
+        return this.requestHandler
+            .authRequest<CalendarEventsResponse>({
+                endpoint: Endpoints.ChannelEvents(channelID),
+                method: "GET",
+                query,
+            })
+            .then((data) =>
+                data.calendarEvents.map(
+                    (event) =>
+                        (
+                            this.servers
+                                .get(event.serverId)
+                                .channels.get(channelID) as CalendarChannel
+                        )?.scheduledEvents.update(event) ??
+                        new CalendarEvent(event, this)
+                )
+            );
+    }
+
+    /**
      * Get a channel message
      * @param channelID The ID of the channel
      * @param messageID The ID of the message
@@ -1337,7 +1537,7 @@ export class Client extends TypedEmitter<ClientEvents> {
         }
 
         return this.requestHandler
-            .authRequest<MessageResponse>({
+            .authRequest<ChannelMessageResponse>({
                 endpoint: Endpoints.ChannelMessage(channelID, messageID),
                 method: "GET",
             })
@@ -1349,6 +1549,117 @@ export class Client extends TypedEmitter<ClientEvents> {
                             .channels.get(channelID) as TextChannel
                     )?.messages.update(data.message) as ChatMessage<T>) ??
                     new ChatMessage<T>(data.message, this)
+            );
+    }
+
+    /**
+     * Get channel messages
+     * @param channelID The ID of the channel
+     * @param filter The options to filter the output
+     * @returns {Promise<Array<ChatMessage<T>>>}
+     */
+    public getChannelMessages<
+        T extends AnyTextableChannel = AnyTextableChannel
+    >(
+        channelID: string,
+        filter: ChannelMessagesFilter
+    ): Promise<Array<ChatMessage<T>>> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        const query = new URLSearchParams();
+
+        if (filter) {
+            if (filter.after) query.set("after", filter.after.toString());
+            if (filter.before) query.set("before", filter.before.toString());
+            if (filter.includePrivate)
+                query.set("includePrivate", filter.includePrivate.toString());
+            if (filter.limit) query.set("limit", filter.limit.toString());
+        }
+
+        return this.requestHandler
+            .authRequest<ChannelMessagesResponse>({
+                endpoint: Endpoints.ChannelMessages(channelID),
+                method: "GET",
+                query,
+            })
+            .then((data) =>
+                data.messages.map(
+                    (message) =>
+                        ((
+                            this.servers
+                                .get(message.serverId)
+                                .channels.get(channelID) as TextChannel
+                        )?.messages.update(message) as ChatMessage<T>) ??
+                        new ChatMessage<T>(message, this)
+                )
+            );
+    }
+
+    /**
+     * Get a doc
+     * @param channelID The ID of the channel
+     * @param docID The ID of the doc
+     * @returns {Promise<Doc>}
+     */
+    public getDoc(channelID: string, docID: number): Promise<Doc> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        if (!docID) {
+            throw new Error("No doc ID provided");
+        }
+
+        return this.requestHandler
+            .authRequest<DocResponse>({
+                endpoint: Endpoints.ChannelDoc(channelID, docID),
+                method: "GET",
+            })
+            .then(
+                (data) =>
+                    (
+                        this.servers
+                            .get(data.doc.serverId)
+                            .channels.get(channelID) as DocChannel
+                    )?.docs.update(data.doc) ?? new Doc(data.doc, this)
+            );
+    }
+
+    /**
+     * Get docs
+     * @param channelID The ID of the channel
+     * @param filter The options to filter the output
+     * @returns {Promise<Array<Doc>>}
+     */
+    public getDocs(channelID: string, filter: DocsFilter): Promise<Array<Doc>> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        const query = new URLSearchParams();
+
+        if (filter) {
+            if (filter.before) query.set("before", filter.before.toString());
+            if (filter.limit) query.set("limit", filter.limit.toString());
+        }
+
+        return this.requestHandler
+            .authRequest<DocsResponse>({
+                endpoint: Endpoints.ChannelDocs(channelID),
+                method: "GET",
+                query,
+            })
+            .then((data) =>
+                data.docs.map(
+                    (data) =>
+                        (
+                            this.servers
+                                .get(data.serverId)
+                                .channels.get(channelID) as DocChannel
+                        )?.docs.update(data) ?? new Doc(data, this)
+                )
             );
     }
 
@@ -1376,6 +1687,83 @@ export class Client extends TypedEmitter<ClientEvents> {
                 method: "GET",
             })
             .then((data) => this.util.updateForumTopic(data.forumTopic));
+    }
+
+    /**
+     * Get forum topics
+     * @param channelID The ID of the channel
+     * @param filter The options to filter the output
+     * @returns {Promise<Array<ForumTopic<ForumChannel>>>}
+     */
+    public getForumTopics(
+        channelID: string,
+        filter: ForumTopicsFilter
+    ): Promise<Array<ForumTopic<ForumChannel>>> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        const query = new URLSearchParams();
+
+        if (filter) {
+            if (filter.before) query.set("before", filter.before.toString());
+            if (filter.limit) query.set("limit", filter.limit.toString());
+        }
+
+        return this.requestHandler
+            .authRequest<ForumTopicsResponse>({
+                endpoint: Endpoints.ForumTopics(channelID),
+                method: "GET",
+                query,
+            })
+            .then((data) =>
+                data.forumTopics.map((topic) =>
+                    this.util.updateForumTopic(topic)
+                )
+            );
+    }
+
+    /**
+     * Get a list item
+     * @param channelID The ID of the channel
+     * @param itemID The ID of the list item
+     * @returns {Promise<ListItem>}
+     */
+    public getListItem(channelID: string, itemID: string): Promise<ListItem> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        if (!itemID) {
+            throw new Error("No item ID provided");
+        }
+
+        return this.requestHandler
+            .authRequest<ListItemResponse>({
+                endpoint: Endpoints.ListItem(channelID, itemID),
+                method: "GET",
+            })
+            .then((data) => new ListItem(data.listItem, this));
+    }
+
+    /**
+     * Get list items
+     * @param channelID The ID of the channel
+     * @returns {Promise<Array<ListItem>>}
+     */
+    public getListItems(channelID: string): Promise<Array<ListItem>> {
+        if (!channelID) {
+            throw new Error("No channel ID provided");
+        }
+
+        return this.requestHandler
+            .authRequest<ListItemsResponse>({
+                endpoint: Endpoints.ListItems(channelID),
+                method: "GET",
+            })
+            .then((data) =>
+                data.listItems.map((item) => new ListItem(item, this))
+            );
     }
 
     /**
@@ -1443,6 +1831,22 @@ export class Client extends TypedEmitter<ClientEvents> {
     }
 
     /**
+     * Get server members
+     * @param serverID The ID of the server
+     * @returns {Promise<Array<Member>>}
+     */
+    public getServerMembers(serverID: string): Promise<Array<ServerMember>> {
+        if (!serverID) {
+            throw new Error("No server ID provided");
+        }
+
+        return this.requestHandler.authRequest<ServerMembersResponse>({
+            endpoint: Endpoints.ServerMembers(serverID),
+            method: "GET",
+        }).then((data) => data.members.map((member) => this.util.updateMember(serverID, member.user.id, member)));
+    }
+
+    /**
      * Get a social link of a server member
      * @param serverID The ID of the server
      * @param memberID The ID of the member
@@ -1480,6 +1884,30 @@ export class Client extends TypedEmitter<ClientEvents> {
                 serviceID: data.socialLink.serviceId,
                 type: data.socialLink.type,
             }));
+    }
+
+    /**
+     * Get server webhooks
+     * @param serverID The ID of the server
+     * @param filter The options to filter the output
+     * @returns {Promise<Array<Webhook>>}
+     */
+    public getServerWebhooks(serverID: string, filter: WebhookFilter): Promise<Array<Webhook>> {
+        if (!serverID) {
+            throw new Error("No server ID provided");
+        }
+
+        const query = new URLSearchParams();
+
+        if (filter) {
+            if (filter.channelID) query.set("channelId", filter.channelID);
+        }
+
+        return this.requestHandler.authRequest<ServerWebhooksResponse>({
+            endpoint: Endpoints.ServerWebhooks(serverID),
+            method: "GET",
+            query,
+        }).then((data) => data.webhooks.map((webhook) => new Webhook(webhook, this)));
     }
 
     /**
