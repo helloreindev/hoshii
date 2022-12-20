@@ -6,6 +6,13 @@ import { Server } from "./Server";
 import { ServerMember } from "./ServerMember";
 import { TextChannel } from "./TextChannel";
 
+export interface ChannelMessagesFilter {
+    after?: string;
+    before?: string;
+    includePrivate?: boolean;
+    limit?: number;
+}
+
 export interface MessageCreateOptions {
     content?: string;
     embeds?: Array<ChatEmbedOptions>;

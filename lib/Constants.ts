@@ -218,8 +218,12 @@ export interface EmbedImage {
     url?: string;
 }
 
-export interface MessageResponse {
+export interface ChannelMessageResponse {
     message: RawChatMessage;
+}
+
+export interface ChannelMessagesResponse {
+    messages: Array<RawChatMessage>;
 }
 
 export interface DocBody {
@@ -229,6 +233,10 @@ export interface DocBody {
 
 export interface DocResponse {
     doc: RawDoc;
+}
+
+export interface DocsResponse {
+    docs: Array<RawDoc>;
 }
 
 export interface CalendarEventBody {
@@ -247,12 +255,20 @@ export interface CalendarEventResponse {
     calendarEvent: RawCalendarEvent;
 }
 
+export interface CalendarEventsResponse {
+    calendarEvents: Array<RawCalendarEvent>;
+}
+
 export interface CalendarEventRSVPBody {
     status: CalendarEventRSVPStatus;
 }
 
 export interface CalendarEventRSVPResponse {
     calendarEventRsvp: RawCalendarEventRSVP;
+}
+
+export interface CalendarEventRSVPsResponse {
+    calendarEventRsvps: Array<RawCalendarEventRSVP>;
 }
 
 export interface ClientEvents {
@@ -498,6 +514,10 @@ export interface ServerMemberResponse {
     member: RawServerMember;
 }
 
+export interface ServerMembersResponse {
+    members: Array<RawServerMember>;
+}
+
 export interface ServerMemberSocialLinkResponse {
     socialLink: SocialLinkResponse;
 }
@@ -526,6 +546,10 @@ export interface ServerWebhookQuery {
 
 export interface ServerWebhookResponse {
     webhook: RawWebhook;
+}
+
+export interface ServerWebhooksResponse {
+    webhooks: Array<RawWebhook>;
 }
 
 export interface SocialLink {
