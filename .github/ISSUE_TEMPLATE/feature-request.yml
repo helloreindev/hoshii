@@ -1,0 +1,23 @@
+name: Feature Request
+description: Help us improve Hoshii by suggesting useful feature
+labels:
+  - "enhancement"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Hoshii Feature Request
+
+        Before submitting a feature request, please consider to:
+
+        - Read the [Contributing Guidelines](https://github.com/helloreindev/hoshii/blob/master/.github/CONTRIBUTING.md) before you proceed.
+        - Check whether the feature request you are about to submit has already been posted or not.
+        - Provide a reason why this feature is suggested and should be considered.
+
+  - type: textarea
+    attributes:
+      label: Feature Description
+      description: What kind of feature would you like?
+      placeholder: Please describe how you like this feature to be consider and useful
+    validations:
+      required: true

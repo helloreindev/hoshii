@@ -1,5 +1,7 @@
 name: Bug Report
 description: Help us improve Hoshii by reporting a bug
+labels:
+  - "bug"
 body:
   - type: markdown
     attributes:
@@ -8,8 +10,9 @@ body:
 
         Before submitting a bug report, please consider to:
 
+        - Read the [Contributing Guidelines](https://github.com/helloreindev/hoshii/blob/master/.github/CONTRIBUTING.md) before you proceed.
         - Keep in mind that we do not support bug reports off of forks.
-        - Check whether the issue you are about to submit has already been posted.
+        - Check whether the issue you are about to submit has already been posted or not.
         - Provide a detail and descriptive information about the bug.
 
   - type: dropdown
