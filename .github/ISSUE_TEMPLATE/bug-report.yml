@@ -1,0 +1,45 @@
+name: Bug Report
+description: Help us improve Hoshii by reporting a bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Hoshii Bug Report
+
+        Before submitting a bug report, please consider to:
+
+        - Keep in mind that we do not support bug reports off of forks.
+        - Check whether the issue you are about to submit has already been posted.
+        - Provide a detail and descriptive information about the bug.
+
+  - type: dropdown
+    attributes:
+      label: Type of Bug
+      description: The type of the bug. You may select more than one options if necessary.
+      multiple: true
+      options:
+        - Cache
+        - Documentation
+        - Performance
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Bug Description
+      description: How did this bug occurred?
+      placeholder: Please describe how the bug occurred. You may be as detail as possible.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Screenshots or Videos
+      description: Screenshots or videos of the bug demonstration.
+      placeholder: You may drag and drop media files into this box.
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Hoshii Version
+      description: The version you encountered the bug on.
+      placeholder: v0.0.2 or 0.0.2
