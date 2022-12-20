@@ -295,7 +295,10 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
                 );
             }
 
-            this.client.emit("debug", "Initializing zlib-sync compress");
+            this.client.emit(
+                "debug",
+                "Initialising zlib-sync-based compression"
+            );
             this._sharedZLib = new ZlibSync.Inflate({ chunkSize: 128 * 1024 });
         }
 
