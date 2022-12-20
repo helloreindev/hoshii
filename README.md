@@ -1,5 +1,10 @@
 # Hoshii
 
+[![CI](https://github.com/helloreindev/hoshii/actions/workflows/ci.yml/badge.svg)](https://github.com/helloreindev/hoshii/actions/workflows/ci.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/helloreindev/hoshii/badge)](https://www.codefactor.io/repository/github/helloreindev/hoshii)
+[![GitHub Release](https://img.shields.io/github/v/release/helloreindev/hoshii?include_prereleases)](https://github.com/helloreindev/hoshii/releases/latest)
+[![NPM](https://img.shields.io/npm/v/hoshii?color=green)](https://npmjs.com/package/hoshii)
+
 - Note: **This library is still in protoype version. Bugs are expected**
 
 **Hoshii** is a NodeJS [Guilded](https://guilded.gg) library.
