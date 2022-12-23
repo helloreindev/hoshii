@@ -11,9 +11,20 @@ export interface DocChannelData extends ServerChannelData {
     docs: Array<DocData>;
 }
 
+/**
+ * Represents a doc channel
+ */
 export class DocChannel extends ServerChannel {
+    /**
+     * A collection of cached docs
+     */
     public docs: TypedCollection<number, RawDoc, Doc>;
 
+    /**
+     * Create a new DocChannel
+     * @param data The raw data of the channel
+     * @param client The client
+     */
     public constructor(data: RawServerChannel, client: Client) {
         super(data, client);
 

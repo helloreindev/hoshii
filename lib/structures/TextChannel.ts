@@ -18,13 +18,24 @@ export interface TextChannelData extends ServerChannelData {
     messages: Array<ChatMessageData>;
 }
 
+/**
+ * Represents a text channel
+ */
 export class TextChannel extends ServerChannel {
+    /**
+     * A collection of cached messages
+     */
     public messages: TypedCollection<
         string,
         RawChatMessage,
         ChatMessage<AnyTextableChannel>
     >;
 
+    /**
+     * Create a new TextChannel
+     * @param data The raw data of the channel
+     * @param client The client
+     */
     public constructor(data: RawServerChannel, client: Client) {
         super(data, client);
 

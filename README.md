@@ -9,9 +9,9 @@
 
 **Hoshii** is a NodeJS [Guilded](https://guilded.gg) library.
 
-- **Documentation:** Coming Soon
+- **Documentation:** [hoshii.js.org](https://hoshii.js.org)
 - **GitHub**: [github.com/helloreindev/hoshii](https://github.com/helloreindev/hoshii)
-- **Guilded Server**: [guilded.gg/hellorein](https://www.guilded.gg/hellorein)
+- **Guilded Server**: [guilded.gg/hoshii](https://www.guilded.gg/hoshii)
 - **NPM:** [npmjs.com/package/hoshii](https://npmjs.com/package/hoshii)
 
 ## Installation

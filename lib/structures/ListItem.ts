@@ -49,33 +49,80 @@ export interface RawListItem {
     updatedBy?: string;
 }
 
+/**
+ * Represents a list item
+ */
 export class ListItem extends Base<string> {
+    /**
+     * The raw data of the list item
+     */
     private _data: RawListItem;
 
+    /**
+     * The ID of the channel the list item is in
+     */
     public channelID: string;
 
+    /**
+     * The date the list item was completed at
+     */
     public completedAt?: Date | null;
 
+    /**
+     * The ID of the user who completed the list item
+     */
     public completedBy?: string | null;
 
+    /**
+     * The date the list item was created at
+     */
     public createdAt?: Date | null;
 
+    /**
+     * The ID of the user who created the list item
+     */
     public createdBy: string;
 
+    /**
+     * The ID of the webhook that created the list item
+     */
     public createdByWebhookID?: string | null;
 
+    /**
+     * The mentions in the list item
+     */
     public mentions?: Mentions | null;
 
+    /**
+     * The message of the list item
+     */
     public message: string;
 
+    /**
+     * The ID of the parent list item
+     */
     public parentListItemID?: string | null;
 
+    /**
+     * The ID of the server the list item is in
+     */
     public serverID: string;
 
+    /**
+     * The date the list item was updated at
+     */
     public updatedAt?: Date | null;
 
+    /**
+     * The ID of the user who updated the list item
+     */
     public updatedBy?: string | null;
 
+    /**
+     * Create a new ListItem
+     * @param data The raw data of the list item
+     * @param client The client
+     */
     public constructor(data: RawListItem, client: Client) {
         super(data.id, client);
 
@@ -95,6 +142,9 @@ export class ListItem extends Base<string> {
         this.update(data);
     }
 
+    /**
+     * The member the list item is in
+     */
     public get member(): ServerMember | Promise<ServerMember> {
         return (
             this.client.servers
@@ -104,6 +154,9 @@ export class ListItem extends Base<string> {
         );
     }
 
+    /**
+     * The note of the list item
+     */
     public get note(): ListItemNote | null {
         return this._data.note
             ? {
@@ -118,7 +171,7 @@ export class ListItem extends Base<string> {
     }
 
     /**
-     * Completes the list item
+     * Complete the list item
      * @returns {Promise<void>}
      */
     public complete(): Promise<void> {

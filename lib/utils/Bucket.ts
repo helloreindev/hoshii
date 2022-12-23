@@ -1,26 +1,71 @@
+export interface BucketOptions {
+    latencyRef?: LatencyReference;
+    reservedTokens?: number;
+}
+
+export interface LatencyReference {
+    latency: number;
+}
+
+/**
+ * A utility class for queueing requests
+ */
 export default class Bucket {
+    /**
+     * The queue of functions to be executed
+     */
     private _queue: Array<{ func(): void; priority: boolean }> = [];
 
+    /**
+     * The interval to wait between clearing used tokens
+     */
     public interval: number;
 
+    /**
+     * Timestamp of last token clearing
+     */
     public lastReset: number;
 
+    /**
+     * Timetamp of last token consumption
+     */
     public lastSend: number;
 
-    public latencyRef: { latency: number };
+    /**
+     * A reference to the latency of the client
+     */
+    public latencyRef: LatencyReference;
 
+    /**
+     * The number of reserved tokens
+     */
     public reservedTokens: number;
 
+    /**
+     * The timeout for the next token clearing
+     */
     public timeout: NodeJS.Timeout | null;
 
+    /**
+     * The maximum number of tokens per interval
+     */
     public tokenLimit: number;
 
+    /**
+     * The number of tokens has been consumed
+     */
     public tokens: number;
 
+    /**
+     * Create a new bucket
+     * @param tokenLimit The maximum number of tokens per interval
+     * @param interval The interval to wait between clearing used tokens
+     * @param options The options for the bucket
+     */
     public constructor(
         tokenLimit: number,
         interval: number,
-        options?: { latencyRef?: { latency: number }; reservedTokens?: number }
+        options?: BucketOptions
     ) {
         this.tokenLimit = tokenLimit;
         this.interval = interval;
@@ -93,7 +138,7 @@ export default class Bucket {
     }
 
     /**
-     * Add an item to the queue
+     * Queue an item to be executed in the Bucket
      * @param func The function to queue
      * @param priority If true, the item will be added to the front of the queue
      */

@@ -31,21 +31,50 @@ export interface WebhookFilter {
     channelID?: string;
 }
 
+/**
+ * Represents a webhook
+ */
 export class Webhook extends Base<string> {
+    /**
+     * The ID of the channel the webhook is in
+     */
     public channelID: string;
 
+    /**
+     * The date the webhook was created at
+     */
     public createdAt: Date;
 
+    /**
+     * The ID of the user that created the webhook
+     */
     public createdBy: string;
 
+    /**
+     * The date the webhook was deleted
+     */
     public deletedAt: Date | null;
 
+    /**
+     * The name of the webhook
+     */
     public name: string;
 
+    /**
+     * The ID of the server the webhook is in
+     */
     public serverID: string;
 
+    /**
+     * The token of the webhook
+     */
     public token: string | null;
 
+    /**
+     * Create a new Webhook
+     * @param data The data of the webhook
+     * @param client The client
+     */
     public constructor(data: RawWebhook, client: Client) {
         super(data.id, client);
 
@@ -71,8 +100,6 @@ export class Webhook extends Base<string> {
     /**
      * Edit the webhook
      * @param options The options to edit the webhook with
-     * @param options.channelID The ID of the channel to edit the webhook in
-     * @param options.name The name of the webhook
      * @returns {Promise<Webhook>}
      */
     public edit(options: WebhookEditOptions): Promise<Webhook> {

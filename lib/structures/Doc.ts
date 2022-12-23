@@ -38,25 +38,60 @@ export interface RawDoc {
     updatedBy?: string;
 }
 
+/**
+ * Represents a doc
+ */
 export class Doc extends Base<number> {
+    /**
+     * The ID of the channel the doc is in
+     */
     public channelID: string;
 
+    /**
+     * The content of the doc
+     */
     public content: string;
 
+    /**
+     * The date the doc was created at
+     */
     public createdAt: Date;
 
+    /**
+     * The ID of the user who created the doc
+     */
     public createdBy: string;
 
+    /**
+     * The mentions in the doc
+     */
     public mentions: Mentions;
 
+    /**
+     * The ID of the server the doc is in
+     */
     public serverID: string;
 
+    /**
+     * The title of the doc
+     */
     public title: string;
 
+    /**
+     * The date the doc was last updated
+     */
     public updatedAt: Date | null;
 
+    /**
+     * The ID of the user who last updated the doc
+     */
     public updatedBy: string | null;
 
+    /**
+     * Creates a new Doc
+     * @param data The raw data of the doc
+     * @param client The client
+     */
     public constructor(data: RawDoc, client: Client) {
         super(data.id, client);
 
@@ -72,6 +107,9 @@ export class Doc extends Base<number> {
         this.update(data);
     }
 
+    /**
+     * The server member who created (or updated) the doc
+     */
     public get member(): ServerMember | Promise<ServerMember> {
         return (
             this.client.servers
@@ -85,7 +123,7 @@ export class Doc extends Base<number> {
     }
 
     /**
-     * Deletes the doc
+     * Delete the doc
      * @returns {Promise<void>}
      */
     public delete(): Promise<void> {
@@ -93,7 +131,7 @@ export class Doc extends Base<number> {
     }
 
     /**
-     * Edits the doc
+     * Edit the doc
      * @param options The options to edit the doc with
      * @returns {Promise<Doc>}
      */

@@ -19,17 +19,40 @@ export interface RawClientUser {
     };
 }
 
+/**
+ * Represents a client user
+ */
 export class ClientUser extends Base<string> {
+    /**
+     * The ID of the bot
+     */
     public botID: string;
 
+    /**
+     * The date the bot was created at
+     */
     public createdAt: Date;
 
+    /**
+     * The ID of the user who created the bot
+     */
     public createdBy: string;
 
+    /**
+     * The name of the bot
+     */
     public name: string;
 
+    /**
+     * The type of the user
+     */
     public type: string;
 
+    /**
+     * Create a new ClientUser
+     * @param data The raw data of the client user
+     * @param client The client
+     */
     public constructor(data: RawClientUser["user"], client: Client) {
         super(data.id, client);
 
@@ -42,6 +65,9 @@ export class ClientUser extends Base<string> {
         this.update(data);
     }
 
+    /**
+     * Whether the user is a bot
+     */
     public get bot(): boolean {
         return true;
     }

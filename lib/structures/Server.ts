@@ -36,23 +36,53 @@ export interface ServerData extends BaseData<string> {
     url?: string;
 }
 
+/**
+ * Represents a server
+ */
 export class Server extends Base<string> {
+    /**
+     * The client member of the server
+     */
     private _clientMember?: ServerMember;
 
+    /**
+     * The about info of the server
+     */
     public about?: string;
 
+    /**
+     * The avatar of the server
+     */
     public avatar?: string;
 
+    /**
+     * The banner of the server
+     */
     public banner?: string;
 
+    /**
+     * A collection of cached channels
+     */
     public channels: TypedCollection<string, RawServerChannel, AnyChannel>;
 
+    /**
+     * The date the server was created at
+     */
     public creaetdAt: Date;
 
+    /**
+     * The ID of the default channel
+     */
     public defaultChannelID?: string;
 
+    /**
+     * Whether the server is verified
+     */
     public isVerified: boolean;
 
+    /**
+     * A collection of cached server members
+     */
     public members: TypedCollection<
         string,
         RawServerMember,
@@ -60,16 +90,36 @@ export class Server extends Base<string> {
         [serverID: string]
     >;
 
+    /**
+     * The name of the server
+     */
     public name: string;
 
+    /**
+     * The ID of the owner of the server
+     */
     public ownerID: string;
 
+    /**
+     * The timezone of the server
+     */
     public timezone?: string;
 
+    /**
+     * The type of the server
+     */
     public type?: ServerCategories;
 
+    /**
+     * The URL of the server
+     */
     public url?: string;
 
+    /**
+     * Create a new Server
+     * @param data The raw data of the server
+     * @param client The client
+     */
     public constructor(data: RawServer, client: Client) {
         super(data.id, client);
 
@@ -89,6 +139,9 @@ export class Server extends Base<string> {
         this.update(data);
     }
 
+    /**
+     * The owner of the server
+     */
     public get owner(): ServerMember | User | Promise<ServerMember> {
         return (
             this.client.servers.get(this.id)?.members.get(this.ownerID) ??
