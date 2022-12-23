@@ -3,6 +3,7 @@ import * as pkgJSON from "../package.json";
 export * from "./Client";
 export * as Constants from "./Constants";
 
+export * from "./structures/Base";
 export * from "./structures/CalendarChannel";
 export * from "./structures/CalendarEvent";
 export * from "./structures/CalendarEventRSVP";
@@ -31,5 +32,8 @@ export * from "./structures/Webhook";
 
 export * as Endpoints from "./rest/Endpoints";
 export * from "./rest/RequestHandler";
+export * from "./gateway/GatewayEventHandler";
+export * from "./gateway/GatewayHandler";
+export * from "./gateway/Websocket";
 
 export const VERSION = pkgJSON.version;
