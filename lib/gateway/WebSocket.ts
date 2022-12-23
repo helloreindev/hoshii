@@ -43,55 +43,134 @@ try {
     } catch {}
 }
 
+/**
+ * Represents a websocket connection to the gateway
+ */
 export class WebSocket extends TypedEmitter<WebsocketEvents> {
+    /**
+     * The timeout for the connection
+     */
     private _connectTimeout: NodeJS.Timeout | null;
 
+    /**
+     * The interval for the heartbeat
+     */
     private _heartbeatInterval: NodeJS.Timeout | null;
 
+    /**
+     * The shared zlib instance (currently not supported)
+     */
     private _sharedZLib!: Pako.Inflate | Inflate;
 
+    /**
+     * Whether the websocket is alive
+     */
     public alive?: boolean;
 
+    /**
+     * The client
+     */
     public client: Client;
 
+    /**
+     * Whether the websocket should compress packets
+     */
     public compress: boolean;
 
+    /**
+     * Whether the websocket is connected
+     */
     public connected: boolean;
 
+    /**
+     * The timeout for the connection
+     */
     public connectionTimeout: number;
 
+    /**
+     * The current reconnect attempt
+     */
     public currReconnectAttempt: number;
 
+    /**
+     * Whether the websocket has received the first message
+     */
     public firstWSMessage: boolean;
 
+    /**
+     * The URl of the gateway
+     */
     public gatewayURL: string;
 
+    /**
+     * The version of the gateway
+     */
     public gatewayVersion: string | number;
 
+    /**
+     * Whether the websocket has requested a heartbeat
+     */
     public heartbeatRequested: boolean;
 
+    /**
+     * Whether the websocket has acknowledged the last heartbeat
+     */
     public lastHeartbeatAck: boolean;
 
+    /**
+     * Last time a heartbeat was received
+     */
     public lastHeartbeatReceived: number;
 
+    /**
+     * Last time a heartbeat was sent
+     */
     public lastHeartbeatSent: number;
 
+    /**
+     * The last message ID
+     */
     public lastMessageID?: string;
 
+    /**
+     * The latency of the websocket
+     */
     public latency: number;
 
+    /**
+     * Whether the websocket should reconnect
+     */
     public reconnect?: boolean;
 
+    /**
+     * The limit of reconnect attempts
+     */
     public reconnectAttemptLimit?: number;
 
+    /**
+     * The interval for reconnecting
+     */
     public reconnectInterval: number;
 
+    /**
+     * Whether the websocket should replay missed events
+     */
     public replayMissedEvents?: boolean;
 
+    /**
+     * The client token
+     */
     public token: string;
 
+    /**
+     * The websocket
+     */
     public ws: WS | null;
 
+    /**
+     * Create a new Websocket connection
+     * @param client The client
+     */
     public constructor(client: Client) {
         super();
 
@@ -140,6 +219,10 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
         );
     }
 
+    /**
+     * Connect to the websocket
+     * @returns {void | Error}
+     */
     public connect(): void | Error {
         if (this.ws && this.ws.readyState !== WS.CLOSED) {
             this.client.emit(
@@ -155,6 +238,11 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
         this.initialise();
     }
 
+    /**
+     * Disconnect from the websocket
+     * @param reconnect Whether the websocket should reconnect
+     * @param error The error that caused the disconnect
+     */
     public disconnect(reconnect = this.reconnect, error?: Error): void {
         this.ws?.close();
         this.alive = false;

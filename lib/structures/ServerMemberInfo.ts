@@ -7,13 +7,31 @@ import {
     Payload_ServerRolesUpdated,
 } from "../Constants";
 
+/**
+ * Represents a server member info
+ */
 export abstract class ServerMemberInfo {
+    /**
+     * The client
+     */
     public client: Client;
 
+    /**
+     * The ID of the member
+     */
     public memberID: string;
 
+    /**
+     * The ID of the server the member is in
+     */
     public serverID: string;
 
+    /**
+     * Create a new ServerMemberInfo
+     * @param data The raw data of the member
+     * @param client The client
+     * @param memberID The ID of the member
+     */
     public constructor(
         data:
             | Payload_ServerMemberRemoved
@@ -27,6 +45,9 @@ export abstract class ServerMemberInfo {
         this.serverID = data.serverId;
     }
 
+    /**
+     * The member
+     */
     get member(): ServerMember | Promise<ServerMember> {
         return (
             this.client.servers
@@ -36,6 +57,9 @@ export abstract class ServerMemberInfo {
         );
     }
 
+    /**
+     * The server the member is in
+     */
     get server(): Server | Promise<Server> {
         return (
             this.client.servers.get(this.serverID) ??

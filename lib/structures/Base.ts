@@ -5,7 +5,9 @@ export interface BaseData<T = string | number> {
     id: T;
 }
 
-/** The default base for all structures */
+/**
+ * Represents a base item
+ */
 export abstract class Base<T = string | number> {
     /** The bot client */
     public client!: Client;
@@ -13,6 +15,11 @@ export abstract class Base<T = string | number> {
     /** The ID of the item */
     public id: T;
 
+    /**
+     * Create a new base instance
+     * @param id The ID of the item
+     * @param client The client
+     */
     public constructor(id: T, client: Client) {
         this.id = id;
 
@@ -43,6 +50,10 @@ export abstract class Base<T = string | number> {
         return copy;
     }
 
+    /**
+     * Returns the JSON representation of the item
+     * @returns {Base<T>}
+     */
     public toJSON(): BaseData<T> {
         return {
             id: this.id,

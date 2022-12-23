@@ -29,11 +29,23 @@ export interface ForumTopicReactionTypes {
           };
 }
 
+/**
+ * Represents a forum topic reaction info
+ */
 export class ForumTopicReactionInfo extends ReactionInfo {
+    /**
+     * The ID of the forum topic comment the reaction is in
+     */
     public commentID?: number | null;
 
+    /**
+     * The ID of the forum topic the reaction is in
+     */
     public topicID: number;
 
+    /**
+     * The type of the forum topic reaction
+     */
     public type: string;
 
     public constructor(
@@ -50,6 +62,9 @@ export class ForumTopicReactionInfo extends ReactionInfo {
             : "topic";
     }
 
+    /**
+     * The topic the reaction is in
+     */
     public get topic(): ForumTopicReactionTypes["topic"] {
         return (
             (

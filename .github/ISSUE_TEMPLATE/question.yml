@@ -11,7 +11,9 @@ body:
         Before posting your question, please consider to:
 
         - Check whether the question you are about to submit has already been posted or not.
-        - You may always use our official [Guilded Server](https://guilded.gg/hellorein) to ask any multiple questions.
+        - You may always use our official [Guilded Server](https://guilded.gg/hoshii) to ask general questions.
+
+        **Note:** We highly recommend to use the official [Guilded Server](https://guilded.gg/hoshii) for questions-related. If your question leads into a bug or an issue, feel free to proceed submitting one.
 
   - type: textarea
     attributes:

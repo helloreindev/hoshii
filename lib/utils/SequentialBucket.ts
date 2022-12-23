@@ -1,18 +1,42 @@
 import type { LatencyRef } from "../rest/RequestHandler";
 
+/**
+ * A sequential bucket for ratelimits
+ */
 export default class SequentialBucket {
+    /**
+     * The queue of functions to be executed
+     */
     private _queue: Array<(cd: () => void) => void>;
 
+    /**
+     * Timestamp of last token consumption
+     */
     public last: number;
 
+    /**
+     * A reference to the latency of the client
+     */
     public latencyRef: LatencyRef;
 
+    /**
+     * The maximum number of tokens per interval
+     */
     public limit: number;
 
+    /**
+     * Whether the queue is currently being processed
+     */
     public processing: NodeJS.Timeout | boolean;
 
+    /**
+     * The number of tokens that remains
+     */
     public remaining: number;
 
+    /**
+     * Timestamp of next reset
+     */
     public reset: number;
 
     public constructor(limit: number, latencyRef: LatencyRef) {
@@ -70,7 +94,7 @@ export default class SequentialBucket {
     }
 
     /**
-     * Add an item to the queue
+     * Queue an item to be executed in the Bucket
      * @param func The function to queue
      * @param priority If true, the item will be added to the front of the queue
      */

@@ -29,18 +29,42 @@ export interface ServerMemberEditOptions {
 }
 
 export class ServerMember extends User {
+    /**
+     * The raw data of the member
+     */
     private _data: RawServerMember;
 
+    /**
+     * Whether the member is the owner of the server
+     */
     public isOwner: boolean;
 
+    /**
+     * The date the member joined the server
+     */
     public joinedAt: Date | null;
 
+    /**
+     * The nickname of the member
+     */
     public nickname: string | null;
 
+    /**
+     * An array of role IDs the member has
+     */
     public roleIDs: Array<number> | null;
 
+    /**
+     * The ID of the server the member is in
+     */
     public serverID: string;
 
+    /**
+     * Create a new ServerMember
+     * @param data The raw data of the member
+     * @param client The client
+     * @param serverID The ID of the server the member is in
+     */
     public constructor(
         data: RawServerMember,
         client: Client,
@@ -58,6 +82,9 @@ export class ServerMember extends User {
         this.update(data);
     }
 
+    /**
+     * The server the member is in
+     */
     public get server(): Server | Promise<Server> {
         return (
             this.client.servers.get(this.serverID) ??
@@ -65,6 +92,9 @@ export class ServerMember extends User {
         );
     }
 
+    /**
+     * The user data of the member
+     */
     public get user(): User {
         if (this.client.users.get(this.id)) {
             return this.client.users.update(this._data.user);
@@ -78,7 +108,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Adds a member to a group
+     * Add a member to a group
      * @param groupID The ID of the group
      * @returns {Promise<void>}
      */
@@ -87,7 +117,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Adds a role to a member
+     * Add a role to a member
      * @param roleID The ID of the role
      * @returns {Promise<void>}
      */
@@ -96,7 +126,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Awards the member the built-in XP system
+     * Award the member the built-in XP system
      * @param amount The amount of XP to award
      * @returns {Promise<number>}
      */
@@ -105,7 +135,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Creates a ban for the member
+     * Create a ban for the member
      * @param reason The reason for the ban
      */
     public createBan(reason?: string) {
@@ -117,9 +147,8 @@ export class ServerMember extends User {
     }
 
     /**
-     * Edits the member
+     * Edit the member
      * @param options The options to edit the member with
-     * @param options.nickname The nickname to set
      * @returns {Promise<void>}
      */
     public edit(options: ServerMemberEditOptions): Promise<void> {
@@ -127,7 +156,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Gets the social link of the member
+     * Get the social link of the member
      * @param socialMediaName The name of the social media
      * @returns {Promise<SocialLink>}
      */
@@ -140,7 +169,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Removes the member from the server
+     * Remove the member from the server
      * @returns {Promise<void>}
      */
     public remove(): Promise<void> {
@@ -148,7 +177,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Removes a member ban
+     * Remove a member ban
      * @returns {Promise<void>}
      */
     public removeBan(): Promise<void> {
@@ -156,7 +185,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Removes a member from a group
+     * Remove a member from a group
      * @param groupID The ID of the group
      * @returns {Promise<void>}
      */
@@ -165,7 +194,7 @@ export class ServerMember extends User {
     }
 
     /**
-     * Removes a role from a member
+     * Remove a role from a member
      * @param roleID The ID of the role
      * @returns {Promise<void>}
      */

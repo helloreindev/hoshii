@@ -27,21 +27,50 @@ export interface RawForumTopicComment {
     updatedAt?: string;
 }
 
+/**
+ * Represents a forum topic comment
+ */
 export class ForumTopicComment extends Base<number> {
+    /**
+     * The ID of the channel the forum topic comment is in
+     */
     public channelID: string;
 
+    /**
+     * The content of the forum topic comment
+     */
     public content: string;
 
+    /**
+     * The date the forum topic comment was created at
+     */
     public createdAt: Date;
 
+    /**
+     * The ID of the user who created the forum topic comment
+     */
     public createdBy: string;
 
+    /**
+     * The ID of the forum topic the forum topic comment is in
+     */
     public forumTopicID: number;
 
+    /**
+     * The mentions in the forum topic comment
+     */
     public mentions?: Mentions | null;
 
+    /**
+     * The date the forum topic comment was updated at
+     */
     public updatedAt?: Date | null;
 
+    /**
+     * Create a new ForumTopicComment
+     * @param data The raw data of the forum topic comment
+     * @param client The client
+     */
     constructor(data: RawForumTopicComment, client: Client) {
         super(data.id, client);
 

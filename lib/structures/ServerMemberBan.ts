@@ -22,15 +22,36 @@ export interface RawServerMemberBan {
     user: RawUserSummary;
 }
 
+/**
+ * Represents a server member ban
+ */
 export class ServerMemberBan extends Base<string> {
+    /**
+     * The ban information
+     */
     public ban: MemberBan;
 
+    /**
+     * The member that was banned
+     */
     public member: ServerMember | null;
 
+    /**
+     * The ID of the server the member was banned from
+     */
     public serverID: string;
 
+    /**
+     * The user data of the member that was banned
+     */
     public user: User;
 
+    /**
+     * Create a new ServerMemberBan
+     * @param data The raw data of the ban
+     * @param client The client
+     * @param serverID The ID of the server the member was banned from
+     */
     public constructor(
         data: RawServerMemberBan,
         client: Client,
@@ -53,6 +74,9 @@ export class ServerMemberBan extends Base<string> {
         this.update(data);
     }
 
+    /**
+     * The server the member was banned from
+     */
     public get server(): Server | Promise<Server> {
         return (
             this.client.servers.get(this.serverID) ??

@@ -16,11 +16,25 @@ export interface ChannelData extends BaseData<string> {
     type: ServerChannelCategories;
 }
 
+/**
+ * Represents a channel
+ */
 export class Channel extends Base<string> {
+    /**
+     * The name of the channel
+     */
     public name: string | null;
 
+    /**
+     * The type of the channel
+     */
     public type: ServerChannelCategories;
 
+    /**
+     * Create a new Channel
+     * @param data The raw data of the channel
+     * @param client The client
+     */
     public constructor(data: RawServerChannel, client: Client) {
         super(data.id, client);
 
@@ -29,7 +43,7 @@ export class Channel extends Base<string> {
     }
 
     /**
-     * Deletes the channel
+     * Delete the channel
      * @returns {Promise<void>}
      */
     public delete(): Promise<void> {
@@ -37,12 +51,8 @@ export class Channel extends Base<string> {
     }
 
     /**
-     * Edits the channel
+     * Edit the channel
      * @param options The options to edit the channel with
-     * @param options The options to edit the channel with
-     * @param options.isPublic Whether the channel is public or not
-     * @param options.name The name of the channel
-     * @param options.topic The topic of the channel
      * @returns {Promise<Channel>}
      */
     public edit(options: ServerChannelEditOptions): Promise<Channel> {

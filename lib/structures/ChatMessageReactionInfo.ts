@@ -26,17 +26,34 @@ export interface ChatMessageReactionTypes {
           };
 }
 
+/**
+ * Represents a chat message reaction info
+ */
 export class ChatMessageReactionInfo extends ReactionInfo {
+    /**
+     * The ID of the chat message the reaction is in
+     */
     public messageID: string;
 
+    /**
+     * The type of the chat message reaction
+     */
     public type: string;
 
+    /**
+     * Create a new ChatMessageReactionInfo
+     * @param data The raw data of the reaction
+     * @param client The client
+     */
     public constructor(data: Payload_ChannelMessageReaction, client: Client) {
         super(data, client);
         this.messageID = data.reaction.messageId;
         this.type = "message";
     }
 
+    /**
+     * The message the reaction is in
+     */
     public get message(): ChatMessageReactionTypes["message"] {
         const channel = this.client.servers
             .get(this.data.serverId)
