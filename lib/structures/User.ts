@@ -28,19 +28,45 @@ export interface UserData extends BaseData<string> {
     type?: UserTypes;
 }
 
+/**
+ * Represents a user
+ */
 export class User extends Base<string> {
+    /**
+     * The avatar of the user
+     */
     public avatar: string | null;
 
+    /**
+     * The banner of the user
+     */
     public banner: string | null;
 
+    /**
+     * Whether the user is a bot
+     */
     public bot: boolean;
 
+    /**
+     * The date the user was created at
+     */
     public createdAt: Date;
 
+    /**
+     * The name of the user
+     */
     public name: string;
 
+    /**
+     * The type of the user
+     */
     public type: UserTypes | null;
 
+    /**
+     * Create a new User
+     * @param data The raw data of the user
+     * @param client The client
+     */
     public constructor(data: RawUser, client: Client) {
         super(data.id, client);
 

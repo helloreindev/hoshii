@@ -42,32 +42,76 @@ export interface ServerChannelEditOptions {
 }
 
 export class ServerChannel extends Base<string> {
+    /**
+     * The date the server channel was archived at
+     */
     public archivedAt: Date | null;
 
+    /**
+     * The ID of the user that archived the server channel
+     */
     public archivedBy: string | null;
 
+    /**
+     * The ID of the category the server channel is in
+     */
     public categoryID: string | null;
 
+    /**
+     * The date the server channel was created at
+     */
     public createdAt: Date;
 
+    /**
+     * The ID of the user that created the server channel
+     */
     public createdBy: string;
 
+    /**
+     * The ID of the group the server channel is in
+     */
     public groupID: string;
 
+    /**
+     * Whether the server channel is public
+     */
     public isPublic: boolean;
 
+    /**
+     * The name of the server channel
+     */
     public name: string;
 
+    /**
+     * The ID of the parent the server channel is in
+     */
     public parentID: string | null;
 
+    /**
+     * The ID of the server the server channel is in
+     */
     public serverID: string;
 
+    /**
+     * The topic of the server channel
+     */
     public topic: string | null;
 
+    /**
+     * The type of the server channel
+     */
     public type: ServerChannelCategories;
 
+    /**
+     * The date the server channel was updated at
+     */
     public updatedAt: Date | null;
 
+    /**
+     * Create a new ServerChannel
+     * @param data The raw data of the server channel
+     * @param client The client
+     */
     public constructor(data: RawServerChannel, client: Client) {
         super(data.id, client);
 
@@ -100,9 +144,6 @@ export class ServerChannel extends Base<string> {
      * Edits the server channel
      * @param options The options to edit the server channel with
      * @param options The options to edit the server channel with
-     * @param options.isPublic Whether the server channel is public or not
-     * @param options.name The name of the server channel
-     * @param options.topic The topic of the server channel
      * @returns {Promise<ServerChannel>}
      */
     public edit(options: ServerChannelEditOptions): Promise<ServerChannel> {

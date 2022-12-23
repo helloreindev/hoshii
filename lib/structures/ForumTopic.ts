@@ -53,43 +53,96 @@ export interface RawForumTopic {
     updatedAt?: string;
 }
 
+/**
+ * Represents a forum topic
+ */
 export class ForumTopic<
     T extends ForumChannel = ForumChannel
 > extends Base<number> {
+    /**
+     * The cached channel the forum topic is in
+     */
     private _cachedChannel?: T extends AnyTextableChannel ? T : undefined;
 
+    /**
+     * The cached server the forum topic is in
+     */
     private _cachedServer?: T extends Server ? Server : Server | null;
 
+    /**
+     * The date the forum topic was last bumped
+     */
     public bumpedAt?: Date | null;
 
+    /**
+     * The ID of the channel the forum topic is in
+     */
     public channelID: string;
 
+    /**
+     * A collection of cached comments
+     */
     public comments: TypedCollection<
         number,
         RawForumTopicComment,
         ForumTopicComment
     >;
 
+    /**
+     * The content of the forum topic
+     */
     public content: string;
 
+    /**
+     * The date the forum topic was created at
+     */
     public createdAt: Date;
 
+    /**
+     * The ID of the user who created the forum topic
+     */
     public createdBy: string;
 
+    /**
+     * The ID of the webhook that created the forum topic
+     */
     public createdByWebhookID?: string;
 
+    /**
+     * Whether the forum topic is locked
+     */
     public isLocked?: boolean;
 
+    /**
+     * Whether the forum topic is pinned
+     */
     public isPinned?: boolean;
 
+    /**
+     * The mentions in the forum topic
+     */
     public mentions?: Mentions | null;
 
+    /**
+     * The ID of the server the forum topic is in
+     */
     public serverID: string;
 
+    /**
+     * The title of the forum topic
+     */
     public title: string;
 
+    /**
+     * The date the forum topic was last updated
+     */
     public updatedAt?: Date | null;
 
+    /**
+     * Create a new forum topic
+     * @param data The raw data of the forum topic
+     * @param client The client
+     */
     public constructor(data: RawForumTopic, client: Client) {
         super(data.id, client);
 
@@ -114,6 +167,9 @@ export class ForumTopic<
         this.update(data);
     }
 
+    /**
+     * The channel the forum topic is in
+     */
     public get channel(): T extends AnyTextableChannel ? T : undefined {
         return (
             this._cachedChannel ??
@@ -125,6 +181,9 @@ export class ForumTopic<
         );
     }
 
+    /**
+     * The server the forum topic is in
+     */
     public get server(): T extends Server ? Server : Server | null {
         if (!this._cachedServer) {
             this._cachedServer = this.client.servers.get(this.serverID);

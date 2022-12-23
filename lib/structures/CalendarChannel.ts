@@ -15,13 +15,24 @@ export interface CalendarChannelData extends ServerChannelData {
     scheduledEvents: Array<CalendarEventData>;
 }
 
+/**
+ * Represents a calendar channel
+ */
 export class CalendarChannel extends ServerChannel {
+    /**
+     * A collection of cached scheduled events
+     */
     public scheduledEvents: TypedCollection<
         number,
         RawCalendarEvent,
         CalendarEvent
     >;
 
+    /**
+     * Create a new CalendarChannel
+     * @param data The raw data of the channel
+     * @param client The client
+     */
     public constructor(data: RawServerChannel, client: Client) {
         super(data, client);
 

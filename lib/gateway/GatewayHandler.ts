@@ -24,9 +24,18 @@ import {
 } from "../Constants";
 import { GatewayEventHandler } from "./GatewayEventHandler";
 
+/**
+ * Represents a gateway handler
+ */
 export class GatewayHandler {
+    /**
+     * The client
+     */
     public client: Client;
 
+    /**
+     * The gateway event handler
+     */
     public gatewayEventHandler: GatewayEventHandler;
 
     /* @ts-ignore */
@@ -189,20 +198,27 @@ export class GatewayHandler {
                 data as Payload_ServerRolesUpdated
             ),
         ServerWebhookCreated: (data) =>
-            this.gatewayEventHandler.webhookCreate(
+            this.gatewayEventHandler.serverWebhookCreate(
                 data as Payload_ServerWebhook
             ),
         ServerWebhookUpdated: (data) =>
-            this.gatewayEventHandler.webhookUpdate(
+            this.gatewayEventHandler.serverWebhookUpdate(
                 data as Payload_ServerWebhook
             ),
     };
 
+    /**
+     * Create a new GatewayHandler
+     * @param client The client
+     */
     public constructor(client: Client) {
         this.client = client;
         this.gatewayEventHandler = new GatewayEventHandler(this.client);
     }
 
+    /**
+     * Handles a message from the gateway
+     */
     public async handleMessage(
         eventType: keyof GATEWAY_EVENTS,
         eventData: object

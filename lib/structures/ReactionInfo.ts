@@ -6,17 +6,40 @@ import {
     Payload_ForumTopicReaction,
 } from "../Constants";
 
+/**
+ * Represents a reaction info
+ */
 export class ReactionInfo {
+    /**
+     * The ID of the channel the reaction is in
+     */
     public channelID: string;
 
+    /**
+     * The client
+     */
     public client!: Client;
 
+    /**
+     * The ID of the user who created the reaction
+     */
     public createdBy: string;
 
+    /**
+     * The raw data of the reaction
+     */
     public data: Payload_ChannelMessageReaction | Payload_ForumTopicReaction;
 
+    /**
+     * The raw emote of the reaction
+     */
     public emote: RawEmote;
 
+    /**
+     * Create a new ReactionInfo
+     * @param data The raw data of the reaction
+     * @param client The client
+     */
     public constructor(
         data: Payload_ChannelMessageReaction | Payload_ForumTopicReaction,
         client: Client
@@ -37,6 +60,9 @@ export class ReactionInfo {
         });
     }
 
+    /**
+     * The creator of the reaction
+     */
     get creator(): ServerMember | { id: string } {
         return (
             this.client.servers

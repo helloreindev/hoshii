@@ -67,41 +67,97 @@ export interface RawChatMessage {
     updatedAt?: string;
 }
 
+/**
+ * Represents a chat message
+ */
 export class ChatMessage<
     T extends AnyTextableChannel = AnyTextableChannel
 > extends Base<string> {
+    /**
+     * The cached channel the message is in
+     */
     private _cachedChannel!: T extends AnyTextableChannel ? T : undefined;
 
+    /**
+     * The cached server that created the message
+     */
     private _cachedServer?: T extends Server ? Server : Server | null;
 
+    /**
+     * The ID of the channel the message is in
+     */
     public channelID: string;
 
+    /**
+     * The content of the message
+     */
     public content?: string | null;
 
+    /**
+     * The date the message was created at
+     */
     public createdAt: Date;
 
+    /**
+     * The ID of the user who created the message
+     */
     public createdBy: string;
 
+    /**
+     * The ID of the webhook that created the message
+     */
     public createdByWebhookID?: string | null;
 
+    /**
+     * The date the message was deleted
+     */
     public deletedAt: Date | null;
 
+    /**
+     * An array of embeds in the message
+     */
     public embeds?: Array<ChatEmbedOptions> | [];
 
+    /**
+     * Whether the message is private
+     */
     public isPrivate: boolean;
 
+    /**
+     * Whether the message is a silent reply
+     */
     public isSilent: boolean;
 
+    /**
+     * An object of mentions in the message
+     */
     public mentions: Mentions;
 
+    /**
+     * An array of message IDs that this message is replying to
+     */
     public replyMessageIDs: Array<string>;
 
+    /**
+     * The ID of the server the message is in
+     */
     public serverID: string | null;
 
+    /**
+     * The type of message
+     */
     public type: MessageCategories;
 
+    /**
+     * The date the message was updated at
+     */
     public updatedAt: Date | null;
 
+    /**
+     * Create a new ChatMessage
+     * @param data The raw data of the message
+     * @param client The client
+     */
     public constructor(data: RawChatMessage, client: Client) {
         super(data.id, client);
 
@@ -123,6 +179,9 @@ export class ChatMessage<
         this.updatedAt = data.updatedAt ? new Date(data.updatedAt) : null;
     }
 
+    /**
+     * The channel the message is in
+     */
     public get channel(): T extends AnyTextableChannel ? T : undefined {
         if (!this.channelID)
             throw new Error(
@@ -142,6 +201,9 @@ export class ChatMessage<
         return this._cachedChannel ? this._cachedChannel : undefined;
     }
 
+    /**
+     * The server the message is in
+     */
     public get server(): T extends Server ? Server : Server | null {
         if (!this.serverID)
             throw new Error(
@@ -161,6 +223,9 @@ export class ChatMessage<
         return this._cachedServer as T extends Server ? Server : Server | null;
     }
 
+    /**
+     * The kmember that created the message
+     */
     public get member(): T extends Server
         ? ServerMember
         : ServerMember | Promise<ServerMember> | undefined {

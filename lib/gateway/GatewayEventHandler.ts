@@ -42,9 +42,19 @@ import { ServerMemberRemoveInfo } from "../structures/ServerMemberRemoveInfo";
 import { TextChannel } from "../structures/TextChannel";
 import { Webhook } from "../structures/Webhook";
 
+/**
+ * Represents a gateway event handler
+ */
 export class GatewayEventHandler {
+    /**
+     * The client
+     */
     public client: Client;
 
+    /**
+     * Create a new gateway event handler
+     * @param client The client
+     */
     constructor(client: Client) {
         this.client = client;
     }
@@ -124,6 +134,10 @@ export class GatewayEventHandler {
         server?.channels?.add(channel);
     }
 
+    /**
+     * Handle a `BotServerMembershipCreated` gateway event
+     * @param data The payload data
+     */
     public botServerMembershipCreate(
         data: Payload_BotServerMembershipCreated
     ): void {
@@ -133,6 +147,10 @@ export class GatewayEventHandler {
         this.client.emit("botServerMembershipCreate", server);
     }
 
+    /**
+     * Handle a `BotServerMembershipDeleted` gateway event
+     * @param data The payload data
+     */
     public botServerMembershipDelete(
         data: Payload_BotServerMembershipDeleted
     ): void {
@@ -142,6 +160,10 @@ export class GatewayEventHandler {
         this.client.emit("botServerMembershipDelete", server);
     }
 
+    /**
+     * Handle a `BotServerMembershipUpdated` gateway event
+     * @param data The payload data
+     */
     public calendarEventCreate(data: Payload_CalendarEvent): void {
         void this.__addServerChannel(
             data.serverId,
@@ -158,6 +180,10 @@ export class GatewayEventHandler {
         this.client.emit("calendarEventCreate", calendar);
     }
 
+    /**
+     * Handle a `CalendarEventDeleted` gateway event
+     * @param data The payload data
+     */
     public calendarEventDelete(data: Payload_CalendarEvent): void {
         void this.__addServerChannel(
             data.serverId,
@@ -175,6 +201,10 @@ export class GatewayEventHandler {
         this.client.emit("calendarEventDelete", calendar);
     }
 
+    /**
+     * Handle a `CalendarEventRsvpDeleted` gateway event
+     * @param data The payload data
+     */
     public calendarEventRSVPDelete(data: Payload_CalendarEventRSVP): void {
         void this.__addServerChannel(
             data.serverId,
@@ -194,6 +224,10 @@ export class GatewayEventHandler {
         this.client.emit("calendarEventRSVPDelete", calendar);
     }
 
+    /**
+     * Handle a `CalendarEventRsvpUpdated` gateway event
+     * @param data The payload data
+     */
     public calendarEventRSVPUpdate(data: Payload_CalendarEventRSVP): void {
         void this.__addServerChannel(
             data.serverId,
@@ -213,6 +247,10 @@ export class GatewayEventHandler {
         this.client.emit("calendarEventRSVPUpdate", calendar);
     }
 
+    /**
+     * Handle a `CalendarEventUpdated` gateway event
+     * @param data The payload data
+     */
     public calendarEventUpdate(data: Payload_CalendarEvent): void {
         void this.__addServerChannel(
             data.serverId,
@@ -229,6 +267,10 @@ export class GatewayEventHandler {
         this.client.emit("calendarEventUpdate", calendar);
     }
 
+    /**
+     * Handle a `ChannelMessageReactionCreated` gateway event
+     * @param data The payload data
+     */
     public channelMessageReactionCreate(
         data: Payload_ChannelMessageReaction
     ): void {
@@ -239,6 +281,10 @@ export class GatewayEventHandler {
         this.client.emit("channelMessageReactionCreate", reaction);
     }
 
+    /**
+     * Handle a `ChannelMessageReactionDeleted` gateway event
+     * @param data The payload data
+     */
     public channelMessageReactionDelete(
         data: Payload_ChannelMessageReaction
     ): void {
@@ -249,6 +295,10 @@ export class GatewayEventHandler {
         this.client.emit("channelMessageReactionDelete", reaction);
     }
 
+    /**
+     * Handle a `ChatMessageCreated` gateway event
+     * @param data The payload data
+     */
     public chatMessageCreate(data: Payload_ChatMessage): void {
         void this._addServerChannel(data.serverId, data.message.channelId);
 
@@ -261,6 +311,10 @@ export class GatewayEventHandler {
         this.client.emit("chatMessageCreate", message);
     }
 
+    /**
+     * Handle a `ChatMessageDeleted` gateway event
+     * @param data The payload data
+     */
     public chatMessageDelete(data: Payload_ChatMessageDeleted): void {
         void this._addServerChannel(data.serverId, data.message.channelId);
 
@@ -280,6 +334,10 @@ export class GatewayEventHandler {
         this.client.emit("chatMessageDelete", message);
     }
 
+    /**
+     * Handle a `ChatMessageUpdated` gateway event
+     * @param data The payload data
+     */
     public chatMessageUpdate(data: Payload_ChatMessage): void {
         void this._addServerChannel(data.serverId, data.message.channelId);
 
@@ -292,6 +350,10 @@ export class GatewayEventHandler {
         this.client.emit("chatMessageUpdate", message);
     }
 
+    /**
+     * Handle a `DocCreated` gateway event
+     * @param data The payload data
+     */
     public docCreate(data: Payload_Doc): void {
         void this._addServerChannel(data.serverId, data.doc.channelId);
 
@@ -304,6 +366,10 @@ export class GatewayEventHandler {
         this.client.emit("docCreate", doc);
     }
 
+    /**
+     * Handle a `DocDeleted` gateway event
+     * @param data The payload data
+     */
     public docDelete(data: Payload_Doc): void {
         void this._addServerChannel(data.serverId, data.doc.channelId);
 
@@ -318,6 +384,10 @@ export class GatewayEventHandler {
         this.client.emit("docDelete", doc);
     }
 
+    /**
+     * Handle a `DocUpdated` gateway event
+     * @param data The payload data
+     */
     public docUpdate(data: Payload_Doc): void {
         void this._addServerChannel(data.serverId, data.doc.channelId);
 
@@ -330,6 +400,10 @@ export class GatewayEventHandler {
         this.client.emit("docUpdate", doc);
     }
 
+    /**
+     * Handle a `ForumTopicCommentCreated` gateway event
+     * @param data The payload data
+     */
     public forumTopicCommentCreate(data: Payload_ForumTopicComment): void {
         void this.___addServerChannel(
             data.serverId,
@@ -352,6 +426,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicCommentCreate", comment);
     }
 
+    /**
+     * Handle a `ForumTopicCommentDeleted` gateway event
+     * @param data The payload data
+     */
     public forumTopicCommentDelete(data: Payload_ForumTopicComment): void {
         void this.___addServerChannel(
             data.serverId,
@@ -374,6 +452,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicCommentDelete", comment);
     }
 
+    /**
+     * Handle a `ForumTopicCommentReactionCreated` gateway event1
+     * @param data The payload data
+     */
     public forumTopicCommentReactionCreate(
         data: Payload_ForumTopicCommentReaction
     ): void {
@@ -387,6 +469,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicCommentReactionCreate", reaction);
     }
 
+    /**
+     * Handle a `ForumTopicCommentReactionDeleted` gateway event
+     * @param data The payload data
+     */
     public forumTopicCommentReactionDelete(
         data: Payload_ForumTopicCommentReaction
     ): void {
@@ -400,6 +486,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicCommentReactionDelete", reaction);
     }
 
+    /**
+     * Handle a `ForumTopicCommentUpdated` gateway event
+     * @param data The payload data
+     */
     public forumTopicCommentUpdate(data: Payload_ForumTopicComment): void {
         void this.___addServerChannel(
             data.serverId,
@@ -419,6 +509,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicCommentUpdate", comment);
     }
 
+    /**
+     * Handle a `ForumTopicCreated` gateway event
+     * @param data The payload data
+     */
     public forumTopicCreate(data: Payload_ForumTopic): void {
         void this.___addServerChannel(data.serverId, data.forumTopic.channelId);
 
@@ -433,6 +527,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicCreate", topic);
     }
 
+    /**
+     * Handle a `ForumTopicDeleted` gateway event
+     * @param data The payload data
+     */
     public forumTopicDelete(data: Payload_ForumTopic): void {
         void this.___addServerChannel(data.serverId, data.forumTopic.channelId);
 
@@ -447,6 +545,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicDelete", topic);
     }
 
+    /**
+     * Handle a `ForumTopicLocked` gateway event
+     * @param data The payload data
+     */
     public forumTopicLock(data: Payload_ForumTopic): void {
         void this.___addServerChannel(data.serverId, data.forumTopic.channelId);
 
@@ -460,6 +562,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicLock", topic);
     }
 
+    /**
+     * Handle a `ForumTopicPinned` gateway event
+     * @param data The payload data
+     */
     public forumTopicPin(data: Payload_ForumTopic): void {
         void this.___addServerChannel(data.serverId, data.forumTopic.channelId);
 
@@ -473,6 +579,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicPin", topic);
     }
 
+    /**
+     * Handle a `ForumTopicReactionCreated` gateway event
+     * @param data The payload data
+     */
     public forumTopicReactionCreate(data: Payload_ForumTopicReaction): void {
         if (data.serverId)
             void this.___addServerChannel(
@@ -484,6 +594,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicReactionCreate", reaction);
     }
 
+    /**
+     * Handle a `ForumTopicReactionDeleted` gateway event
+     * @param data The payload data
+     */
     public forumTopicReactionDelete(data: Payload_ForumTopicReaction): void {
         if (data.serverId)
             void this.___addServerChannel(
@@ -495,6 +609,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicReactionDelete", reaction);
     }
 
+    /**
+     * Handle a `ForumTopicUnlocked` gateway event
+     * @param data The payload data
+     */
     public forumTopicUnlock(data: Payload_ForumTopic): void {
         void this.___addServerChannel(data.serverId, data.forumTopic.channelId);
 
@@ -508,6 +626,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicUnlock", topic);
     }
 
+    /**
+     * Handle a `ForumTopicUnpinned` gateway event
+     * @param data The payload data
+     */
     public forumTopicUnpin(data: Payload_ForumTopic): void {
         void this.___addServerChannel(data.serverId, data.forumTopic.channelId);
 
@@ -521,6 +643,10 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicUnpin", topic);
     }
 
+    /**
+     * Handle a `ForumTopicUpdated` gateway event
+     * @param data The payload data
+     */
     public forumTopicUpdate(data: Payload_ForumTopic): void {
         void this.___addServerChannel(data.serverId, data.forumTopic.channelId);
 
@@ -534,36 +660,60 @@ export class GatewayEventHandler {
         this.client.emit("forumTopicUpdate", topic);
     }
 
+    /**
+     * Handle a `ListItemCompleted` gateway event
+     * @param data The payload data
+     */
     public listItemComplete(data: Payload_ListItem): void {
         const list = new ListItem(data.listItem, this.client);
 
         this.client.emit("listItemComplete", list);
     }
 
+    /**
+     * Handle a `ListItemCreated` gateway event
+     * @param data The payload data
+     */
     public listItemCreate(data: Payload_ListItem): void {
         const list = new ListItem(data.listItem, this.client);
 
         this.client.emit("listItemCreate", list);
     }
 
+    /**
+     * Handle a `ListItemDeleted` gateway event
+     * @param data The payload data
+     */
     public listItemDelete(data: Payload_ListItem): void {
         const list = new ListItem(data.listItem, this.client);
 
         this.client.emit("listItemDelete", list);
     }
 
+    /**
+     * Handle a `ListItemUncompleted` gateway event
+     * @param data The payload data
+     */
     public listItemUncomplete(data: Payload_ListItem): void {
         const list = new ListItem(data.listItem, this.client);
 
         this.client.emit("listItemUncomplete", list);
     }
 
+    /**
+     * Handle a `ListItemUpdated` gateway event
+     * @param data The payload data
+     */
     public listItemUpdate(data: Payload_ListItem): void {
         const list = new ListItem(data.listItem, this.client);
 
         this.client.emit("listItemUpdate", list);
     }
 
+    /**
+     * Handle a `ServerChannelCreated` gateway event
+     * @param data The payload data
+     */
     public serverChannelCreate(data: Payload_ServerChannel): void {
         void this._addServerChannel(data.serverId, data.channel.id);
 
@@ -572,6 +722,10 @@ export class GatewayEventHandler {
         this.client.emit("serverChannelCreate", channel);
     }
 
+    /**
+     * Handle a `ServerChannelDeleted` gateway event
+     * @param data The payload data
+     */
     public serverChannelDelete(data: Payload_ServerChannel): void {
         const server = this.client.servers.get(data.serverId);
         const channel = this.client.util.updateChannel(data.channel);
@@ -580,6 +734,10 @@ export class GatewayEventHandler {
         this.client.emit("serverChannelDelete", channel);
     }
 
+    /**
+     * Handle a `ServerChannelUpdated` gateway event
+     * @param data The payload data
+     */
     public serverChannelUpdate(data: Payload_ServerChannel): void {
         void this._addServerChannel(data.serverId, data.channel.id);
 
@@ -588,6 +746,10 @@ export class GatewayEventHandler {
         this.client.emit("serverChannelUpdate", channel);
     }
 
+    /**
+     * Handle a `ServerMemberBanned` gateway event
+     * @param data The payload data
+     */
     public serverMemberBan(data: Payload_ServerMemberBan): void {
         const member = new ServerMemberBan(
             data.serverMemberBan,
@@ -598,6 +760,10 @@ export class GatewayEventHandler {
         this.client.emit("serverMemberBan", member);
     }
 
+    /**
+     * Handle a `ServerMemberJoined` gateway event
+     * @param data The payload data
+     */
     public serverMemberJoin(data: Payload_ServerMemberJoined): void {
         const member = new ServerMember(
             data.member,
@@ -608,6 +774,10 @@ export class GatewayEventHandler {
         this.client.emit("serverMemberJoin", member);
     }
 
+    /**
+     * Handle a `ServerMemberRemoved` gateway event
+     * @param data The payload data
+     */
     public serverMemberRemove(data: Payload_ServerMemberRemoved): void {
         const member = new ServerMemberRemoveInfo(
             data,
@@ -618,6 +788,10 @@ export class GatewayEventHandler {
         this.client.emit("serverMemberRemove", member);
     }
 
+    /**
+     * Handle a `ServerMemberUnbanned` gateway event
+     * @param data The payload data
+     */
     public serverMemberUnban(data: Payload_ServerMemberBan): void {
         const member = new ServerMemberBan(
             data.serverMemberBan,
@@ -628,6 +802,10 @@ export class GatewayEventHandler {
         this.client.emit("serverMemberUnban", member);
     }
 
+    /**
+     * Handle a `ServerMemberUpdated` gateway event
+     * @param data The payload data
+     */
     public serverMemberUpdate(data: Payload_ServerMemberUpdated): void {
         const member = new ServerMemberUpdateInfo(
             data,
@@ -638,6 +816,10 @@ export class GatewayEventHandler {
         this.client.emit("serverMemberUpdate", member);
     }
 
+    /**
+     * Handle a `ServerRolesUpdated` gateway event
+     * @param data The payload data
+     */
     public serverRolesUpdate(data: Payload_ServerRolesUpdated): void {
         const member = new ServerMemberUpdateInfo(
             data,
@@ -648,13 +830,21 @@ export class GatewayEventHandler {
         this.client.emit("serverRolesUpdate", member);
     }
 
-    public webhookCreate(data: Payload_ServerWebhook): void {
+    /**
+     * Handle a `ServerWebhookCreated` gateway event
+     * @param data The payload data
+     */
+    public serverWebhookCreate(data: Payload_ServerWebhook): void {
         const webhook = new Webhook(data.webhook, this.client);
-        this.client.emit("webhookCreate", webhook);
+        this.client.emit("serverWebhookCreate", webhook);
     }
 
-    public webhookUpdate(data: Payload_ServerWebhook): void {
+    /**
+     * Handle a `ServerWebhookUpdated` gateway event
+     * @param data The payload data
+     */
+    public serverWebhookUpdate(data: Payload_ServerWebhook): void {
         const webhook = new Webhook(data.webhook, this.client);
-        this.client.emit("webhookUpdate", webhook);
+        this.client.emit("serverWebhookUpdate", webhook);
     }
 }
