@@ -318,9 +318,9 @@ export interface ClientEvents {
     serverMemberUnban: [member: ServerMemberBan];
     serverMemberUpdate: [member: ServerMemberUpdateInfo];
     serverRolesUpdate: [member: ServerMemberUpdateInfo];
+    serverWebhookCreate: [webhook: Webhook];
+    serverWebhookUpdate: [webhook: Webhook];
     warn: [message: string];
-    webhookCreate: [webhook: Webhook];
-    webhookUpdate: [webhook: Webhook];
 }
 
 export interface ForumTopicCommentResponse {
