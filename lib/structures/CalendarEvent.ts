@@ -72,45 +72,104 @@ export interface RawCalendarEvent {
     url?: string;
 }
 
+/**
+ * Represents a calendar event
+ */
 export class CalendarEvent extends Base<number> {
+    /**
+     * The cancellation information of the event
+     */
     public cancellation: CalendarEventCancellation | null;
 
+    /**
+     * The ID of the channel the event is in
+     */
     public channelID: string;
 
+    /**
+     * The colour of the event
+     */
     public color: number | null;
 
+    /**
+     * The date the event was created at
+     */
     public createdAt: Date | null;
 
+    /**
+     * The ID of the user who created the event
+     */
     public createdBy: string;
 
+    /**
+     * The raw data of the event
+     */
     public data: RawCalendarEvent;
 
+    /**
+     * The description of the event
+     */
     public description: string | null;
 
+    /**
+     * The duration of the event in minutes
+     */
     public duration: number;
 
+    /**
+     * Whether the event is private
+     */
     public isPrivate: boolean;
 
+    /**
+     * The location of the event
+     */
     public location: string | null;
 
+    /**
+     * The mentions of the event
+     */
     public mentions: Mentions | null;
 
+    /**
+     * The name of the event
+     */
     public name: string;
 
+    /**
+     * The RSVP limit of the event
+     */
     public rsvpLimit: number | null;
 
+    /**
+     * A collection of cached RSVPs
+     */
     public rsvps: TypedCollection<
         number,
         RawCalendarEventRSVP,
         CalendarEventRSVP
     >;
 
+    /**
+     * The ID of the server the event is in
+     */
     public serverID: string;
 
+    /**
+     * The date the event starts at
+     */
     public startsAt: Date | null;
 
+    /**
+     * The URL of the event
+     */
     public url: string | null;
 
+    /**
+     * Create a new CalendarEvent
+     * @param data The raw data of the event
+     * @param client The client
+     */
     public constructor(data: RawCalendarEvent, client: Client) {
         super(data.id, client);
 
@@ -139,6 +198,9 @@ export class CalendarEvent extends Base<number> {
         this.update(data);
     }
 
+    /**
+     * The owner of the event
+     */
     public get owner():
         | ServerMember
         | User
@@ -156,7 +218,7 @@ export class CalendarEvent extends Base<number> {
     }
 
     /**
-     * Deletes the calendar event
+     * Delete the calendar event
      * @returns {Promise<void>}
      */
     public delete(): Promise<void> {
@@ -164,7 +226,7 @@ export class CalendarEvent extends Base<number> {
     }
 
     /**
-     * Edits the calendar event
+     * Edit the calendar event
      * @param options The options to edit the calendar event with
      * @returns {Promise<CalendarEvent>}
      */

@@ -36,23 +36,55 @@ export interface RawCalendarEventRSVP {
     userId: string;
 }
 
+/**
+ * Represents a calendar event RSVP
+ */
 export class CalendarEventRSVP extends Base<number> {
+    /**
+     * The ID of the channel the calendar event is in
+     */
     public channelID: string;
 
+    /**
+     * The date the calendar event RSVP was created at
+     */
     public createdAt: Date | null;
 
+    /**
+     * The ID of the user that created the calendar event RSVP
+     */
     public createdBy: string | null;
 
+    /**
+     * The ID of the server the calendar event is in
+     */
     public serverID: string;
 
+    /**
+     * The status of the calendar event RSVP
+     */
     public status: CalendarEventRSVPStatus;
 
+    /**
+     * The date the calendar event RSVP was updated at
+     */
     public updatedAt: Date | null;
 
+    /**
+     * The ID of the user that updated the calendar event RSVP
+     */
     public updatedBy: string | null;
 
+    /**
+     * The ID of the user
+     */
     public userID: string;
 
+    /**
+     * Create a new CalendarEventRSVP
+     * @param data The raw data for the calendar event RSVP
+     * @param client The client
+     */
     public constructor(data: RawCalendarEventRSVP, client: Client) {
         super(data.calendarEventId, client);
 
@@ -69,7 +101,7 @@ export class CalendarEventRSVP extends Base<number> {
     }
 
     /**
-     * Deletes the calendar event RSVP
+     * Delete the calendar event RSVP
      * @returns {Promise<void>}
      */
     public delete(): Promise<void> {
@@ -81,7 +113,7 @@ export class CalendarEventRSVP extends Base<number> {
     }
 
     /**
-     * Edits the calendar event RSVP
+     * Edit the calendar event RSVP
      * @param options The options to edit the calendar event RSVP with
      * @returns {Promise<CalendarEventRSVP>}
      */

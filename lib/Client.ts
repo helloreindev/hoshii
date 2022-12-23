@@ -101,27 +101,65 @@ export interface CollectionLimits {
     topics?: number;
 }
 
+/**
+ * Represents the main Client class
+ */
 export class Client extends TypedEmitter<ClientEvents> {
+    /**
+     * The Gateway handler to handle events
+     */
     private _gateway: GatewayHandler;
 
+    /**
+     * The options for the client
+     */
     public options: ClientOptions;
 
+    /**
+     * The request handler to send REST requests
+     */
     public requestHandler: RequestHandler;
 
+    /**
+     * A collection of cached servers
+     */
     public servers: TypedCollection<string, RawServer, Server>;
 
+    /**
+     * The time the client started
+     */
     public startTime: number;
 
+    /**
+     * The token of the client
+     */
     public token: string;
 
+    /**
+     * The user of the client
+     */
     public user: ClientUser;
 
+    /**
+     * A collection of cached users
+     */
     public users: TypedCollection<string, RawUser, User>;
 
+    /**
+     * The util class
+     */
     public util: Util;
 
+    /**
+     * The websocket connection
+     */
     public ws: WebSocket;
 
+    /**
+     * Create a new client instance
+     * @param token The token of the client
+     * @param options The options for the client
+     */
     public constructor(token: string, options: ClientOptions) {
         if (!token) {
             throw new Error("No token provided");
@@ -162,6 +200,9 @@ export class Client extends TypedEmitter<ClientEvents> {
         this.options.restOptions = this.requestHandler.options;
     }
 
+    /**
+     * The current uptime of the client
+     */
     public get uptime(): number {
         return this.startTime ? Date.now() - this.startTime : 0;
     }
@@ -1264,9 +1305,6 @@ export class Client extends TypedEmitter<ClientEvents> {
      * Edit the server channel
      * @param channelID The ID of the channel
      * @param options The options to edit the channel with
-     * @param options.isPublic Whether the channel is public or not
-     * @param options.name The name of the channel
-     * @param options.topic The topic of the channel
      * @returns {Promise<T>}
      */
     public editServerChannel<T extends AnyChannel = AnyChannel>(
@@ -1307,7 +1345,6 @@ export class Client extends TypedEmitter<ClientEvents> {
      * @param serverID The ID of the server
      * @param memberID The ID of the member
      * @param options The options to edit the member with
-     * @param options.nickname The nickname to set
      * @returns {Promise<void>}
      */
     public editServerMember(
@@ -1334,8 +1371,6 @@ export class Client extends TypedEmitter<ClientEvents> {
      * @param serverID The ID of the server
      * @param webhookID The ID of the webhook
      * @param options The options to edit the webhook with
-     * @param options.channelID The ID of the channel to edit the webhook in
-     * @param options.name The name of the webhook
      * @returns {Promise<Webhook>}
      */
     public editServerWebhook(

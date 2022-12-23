@@ -17,13 +17,24 @@ export interface ForumChannelData extends ServerChannelData {
     topics: Array<ForumTopicData>;
 }
 
+/**
+ * Represents a forum channel
+ */
 export class ForumChannel extends ServerChannel {
+    /**
+     * A collection of cached topics
+     */
     public topics: TypedCollection<
         number,
         RawForumTopic,
         ForumTopic<ForumChannel>
     >;
 
+    /**
+     * Create a new ForumChannel
+     * @param data The raw data of the channel
+     * @param client The client
+     */
     public constructor(data: RawServerChannel, client: Client) {
         super(data, client);
 
