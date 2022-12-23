@@ -93,7 +93,7 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
     public currReconnectAttempt: number;
 
     /**
-     * Whether the websocket is currently reconnecting
+     * Whether the websocket has received the first message
      */
     public firstWSMessage: boolean;
 
