@@ -7,13 +7,28 @@ import { RawServerMember, ServerMember } from "../structures/ServerMember";
 import { RawServer, Server } from "../structures/Server";
 import { RawServerChannel } from "../structures/ServerChannel";
 
+/**
+ * A utility class
+ */
 export class Util {
+    /**
+     * The client
+     */
     private _client: Client;
 
+    /**
+     * Create a new Util
+     * @param client The client
+     */
     public constructor(client: Client) {
         this._client = client;
     }
 
+    /**
+     * Update a channel
+     * @param data The channel data
+     * @returns {T}
+     */
     public updateChannel<T extends AnyChannel = AnyChannel>(
         data: RawServerChannel
     ): T {
@@ -32,6 +47,11 @@ export class Util {
         }
     }
 
+    /**
+     * Update a forum topic
+     * @param data The forum topic data
+     * @returns {ForumTopic<ForumChannel>}
+     */
     public updateForumTopic(data: RawForumTopic): ForumTopic<ForumChannel> {
         if (data.serverId) {
             const server = this._client.servers.get(data.serverId);
@@ -51,6 +71,13 @@ export class Util {
         return new ForumTopic(data, this._client);
     }
 
+    /**
+     * Update a member
+     * @param serverID The ID of the server
+     * @param memberID The ID of the member
+     * @param member The raw data of the member
+     * @returns {ServerMember}
+     */
     public updateMember(
         serverID: string,
         memberID: string,
@@ -76,6 +103,11 @@ export class Util {
             : new ServerMember({ ...member }, this._client, serverID);
     }
 
+    /**
+     * Update a server
+     * @param data The raw data of the server
+     * @returns {Server}
+     */
     public updateServer(data: RawServer): Server {
         if (!data.id) {
             return this._client.servers.has(data.id)
@@ -87,6 +119,11 @@ export class Util {
     }
 }
 
+/**
+ * Check whether an item is of a certain type
+ * @param input The item to return true for
+ * @returns {boolean}
+ */
 export function is<T>(input: unknown): input is T {
     return true;
 }
