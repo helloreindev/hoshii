@@ -3,6 +3,13 @@ import * as pkgJSON from "../package.json";
 export * from "./Client";
 export * as Constants from "./Constants";
 
+export * from "./utils/Bucket";
+export * from "./utils/Collection";
+export * from "./utils/SequentialBucket";
+export * from "./utils/TypedCollection";
+export * from "./utils/TypedEmitter";
+export * from "./utils/Util";
+
 export * from "./structures/Base";
 export * from "./structures/CalendarChannel";
 export * from "./structures/CalendarEvent";
