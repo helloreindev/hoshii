@@ -1,6 +1,6 @@
 {
   "name": "hoshii",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A NodeJS Guilded Library",
   "main": "src/lib/index.js",
   "engines": {
