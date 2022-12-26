@@ -45,19 +45,45 @@ export interface RESTOptions {
     userAgent?: string;
 }
 
+/**
+ * Represents a request handler to handle requests to the Guilded API
+ */
 export class RequestHandler {
+    /**
+     * The client
+     */
     private _client: Client;
 
+    /**
+     * Whether the request is globally blocked
+     */
     public globalBlock = false;
 
+    /**
+     * The latency reference
+     */
     public latencyRef: LatencyRef;
 
+    /**
+     * The options for the request handler
+     */
     public options: RESTOptions;
 
+    /**
+     * The ratelimits for the request handler
+     */
     public ratelimits: Record<string, SequentialBucket> = {};
 
+    /**
+     * The ready queue for the request handler
+     */
     public readyQueue: Array<() => void> = [];
 
+    /**
+     * Create a new RequestHandler
+     * @param client The client
+     * @param options The options for the request handler
+     */
     public constructor(client: Client, options: RESTOptions = {}) {
         this._client = client;
         this.options = {
@@ -102,6 +128,9 @@ export class RequestHandler {
         });
     }
 
+    /**
+     * Unblock the request handler
+     */
     private globalUnblock(): void {
         this.globalBlock = false;
 
@@ -158,12 +187,13 @@ export class RequestHandler {
                             tokenArgs[0] === "Bearer"
                                 ? options.auth
                                 : `Bearer ${options.auth}`;
-                    } else if (options.auth && this._client.ws.token) {
-                        const tokenArgs = this._client.ws.token.split(" ");
+                    } else if (options.auth && this._client.ws.client.token) {
+                        const tokenArgs =
+                            this._client.ws.client.token.split(" ");
                         headers.Authorization =
                             tokenArgs[0] === "Bearer"
-                                ? this._client.ws.token
-                                : `Bearer ${this._client.ws.token}`;
+                                ? this._client.ws.client.token
+                                : `Bearer ${this._client.ws.client.token}`;
                     }
 
                     options.method = options.method.toUpperCase() as HTTPMethod;
