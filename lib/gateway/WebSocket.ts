@@ -73,11 +73,6 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
     public client: Client;
 
     /**
-     * Whether the websocket should compress packets
-     */
-    public compress: boolean;
-
-    /**
      * Whether the websocket is connected
      */
     public connected: boolean;
@@ -138,16 +133,6 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
     public latency: number;
 
     /**
-     * Whether the websocket should reconnect
-     */
-    public reconnect?: boolean;
-
-    /**
-     * The limit of reconnect attempts
-     */
-    public reconnectAttemptLimit?: number;
-
-    /**
      * The interval for reconnecting
      */
     public reconnectInterval: number;
@@ -156,11 +141,6 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
      * Whether the websocket should replay missed events
      */
     public replayMissedEvents?: boolean;
-
-    /**
-     * The client token
-     */
-    public token: string;
 
     /**
      * The websocket
@@ -189,14 +169,10 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
             },
         });
 
-        this.token = client.token;
         this.gatewayVersion = DefaultConfig.GuildedAPI.GatewayVersion;
         this.gatewayURL = DefaultConfig.GuildedAPI.GatewayURL;
-        this.reconnect = client.options.reconnect ?? true;
-        this.reconnectAttemptLimit = client.options.reconnectAttemptLimit ?? 1;
         this.reconnectInterval = 10000;
         this.replayMissedEvents = client.options.replayMissedEvents ?? true;
-        this.compress = client.options.compress ?? false;
         this._heartbeatInterval = null;
         this.ws = null;
         this.firstWSMessage = true;
@@ -243,7 +219,10 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
      * @param reconnect Whether the websocket should reconnect
      * @param error The error that caused the disconnect
      */
-    public disconnect(reconnect = this.reconnect, error?: Error): void {
+    public disconnect(
+        reconnect = this.client.options.reconnect,
+        error?: Error
+    ): void {
         this.ws?.close();
         this.alive = false;
         this.connected = false;
@@ -289,7 +268,8 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
         this.emit("disconnect", error as Error);
 
         if (
-            this.currReconnectAttempt >= (this.reconnectAttemptLimit as number)
+            this.currReconnectAttempt >=
+            (this.client.options.reconnectAttemptLimit as number)
         ) {
             this.client.emit(
                 "debug",
@@ -326,12 +306,8 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
 
     public hardReset(): void {
         this.reset();
-        this.token = this.client.token;
         this.gatewayVersion = DefaultConfig.GuildedAPI.GatewayVersion;
         this.gatewayURL = DefaultConfig.GuildedAPI.GatewayURL;
-        this.reconnect = this.client.options.reconnect ?? true;
-        this.reconnectAttemptLimit =
-            this.client.options.reconnectAttemptLimit ?? 1;
         this.replayMissedEvents =
             this.client.options.replayMissedEvents ?? true;
         this._heartbeatInterval = null;
@@ -373,10 +349,10 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
     }
 
     private initialise(): void {
-        if (!this.token)
+        if (!this.client.token)
             return this.disconnect(false, new Error("Invalid Token."));
 
-        if (this.compress) {
+        if (this.client.options.compress) {
             if (!ZlibSync) {
                 throw new Error(
                     "Unable to use compress without the pako or zlib-sync module."
@@ -522,7 +498,7 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
 
         try {
             if (data instanceof ArrayBuffer) {
-                if (this.compress || Erlpack) {
+                if (this.client.options.compress || Erlpack) {
                     data = Buffer.from(data);
                 }
             } else if (Array.isArray(data)) {
@@ -531,7 +507,7 @@ export class WebSocket extends TypedEmitter<WebsocketEvents> {
 
             assert(is<Buffer>(data));
 
-            if (this.compress) {
+            if (this.client.options.compress) {
                 if (
                     data.length >= 4 &&
                     data.readUInt32BE(data.length - 4) === 0x30307d7d
