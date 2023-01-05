@@ -4,10 +4,9 @@ export * from "./Client";
 export * as Constants from "./Constants";
 
 export * from "./utils/Bucket";
-export * from "./utils/Collection";
-export * from "./utils/SequentialBucket";
-export * from "./utils/TypedCollection";
-export * from "./utils/TypedEmitter";
+export { default as Collection } from "./utils/Collection";
+export { default as SequentialBucket } from "./utils/SequentialBucket";
+export { default as TypedCollection } from "./utils/TypedCollection";
 export * from "./utils/Util";
 
 export * from "./structures/Base";
