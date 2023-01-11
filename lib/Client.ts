@@ -30,6 +30,7 @@ import {
     ServerWebhooksResponse,
     ServerMembersResponse,
     ForumTopicCommentsResponse,
+    UserResponse,
 } from "./Constants";
 import { RequestHandler, RESTOptions } from "./rest/RequestHandler";
 import TypedCollection from "./utils/TypedCollection";
@@ -2029,6 +2030,22 @@ export class Client extends TypedEmitter<ClientEvents> {
             .then((data) =>
                 data.webhooks.map((webhook) => new Webhook(webhook, this))
             );
+    }
+
+    /**
+     * Get a user
+     * @param userID The ID of the user
+     * @returns {Promise<User>}
+     */
+    public getUser(userID: string): Promise<User> {
+        if (!userID) {
+            throw new Error("No user ID provided");
+        }
+
+        return this.requestHandler.authRequest<UserResponse>({
+            endpoint: Endpoints.User(userID),
+            method: "GET",
+        }).then((data) => this.util.updateUser(data.user));
     }
 
     /**
