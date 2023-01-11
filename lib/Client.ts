@@ -2042,10 +2042,12 @@ export class Client extends TypedEmitter<ClientEvents> {
             throw new Error("No user ID provided");
         }
 
-        return this.requestHandler.authRequest<UserResponse>({
-            endpoint: Endpoints.User(userID),
-            method: "GET",
-        }).then((data) => this.util.updateUser(data.user));
+        return this.requestHandler
+            .authRequest<UserResponse>({
+                endpoint: Endpoints.User(userID),
+                method: "GET",
+            })
+            .then((data) => this.util.updateUser(data.user));
     }
 
     /**
