@@ -34,6 +34,7 @@ import { ChatMessageReactionInfo } from "./structures/ChatMessageReactionInfo";
 import { ForumTopicReactionInfo } from "./structures/ForumTopicReactionInfo";
 import { ServerMemberRemoveInfo } from "./structures/ServerMemberRemoveInfo";
 import { ServerMemberUpdateInfo } from "./structures/ServerMemberUpdateInfo";
+import { RawUser } from "./structures/User";
 
 export const GatewayVersion = 1;
 export const GatewayURL = `wss://www.guilded.gg/websocket/v${GatewayVersion}`;
@@ -562,6 +563,10 @@ export interface SocialLinkResponse {
     handle?: string;
     serviceId: string;
     type: string;
+}
+
+export interface UserResponse {
+    user: RawUser;
 }
 
 export interface WelcomePacket {
