@@ -6,6 +6,7 @@ import { ForumTopic, RawForumTopic } from "../structures/ForumTopic";
 import { RawServerMember, ServerMember } from "../structures/ServerMember";
 import { RawServer, Server } from "../structures/Server";
 import { RawServerChannel } from "../structures/ServerChannel";
+import { RawUser, User } from "../structures/User";
 
 /**
  * A utility class
@@ -116,6 +117,17 @@ export class Util {
         }
 
         return new Server(data, this._client);
+    }
+
+    /**
+     * Update a user
+     * @param data The raw data of the user
+     * @returns {User}
+     */
+    public updateUser(data: RawUser): User {
+        return this._client.users.has(data.id)
+            ? this._client.users.update(data)
+            : this._client.users.add(new User(data, this._client));
     }
 }
 
