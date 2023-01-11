@@ -92,6 +92,8 @@ export const ServerWebhooks = (serverID: string) =>
 export const ServerWebhook = (serverID: string, webhookID: string) =>
     `/servers/${serverID}/webhooks/${webhookID}`;
 
+export const User = (userID: string) => `/users/${userID}`;
+
 export const ListItems = (channelID: string) => `/channels/${channelID}/items`;
 export const ListItem = (channelID: string, itemID: string) =>
     `/channels/${channelID}/items/${itemID}`;
