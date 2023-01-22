@@ -5,8 +5,6 @@
 [![GitHub Release](https://img.shields.io/github/v/release/helloreindev/hoshii?include_prereleases)](https://github.com/helloreindev/hoshii/releases/latest)
 [![NPM](https://img.shields.io/npm/v/hoshii?color=green)](https://npmjs.com/package/hoshii)
 
-- Note: **This library is still in prototype version. Bugs are expected.**
-
 **Hoshii** is a NodeJS [Guilded](https://guilded.gg) library.
 
 - **Documentation:** [hoshii.js.org](https://hoshii.js.org)

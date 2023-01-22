@@ -40,6 +40,6 @@ export * as Endpoints from "./rest/Endpoints";
 export * from "./rest/RequestHandler";
 export * from "./gateway/GatewayEventHandler";
 export * from "./gateway/GatewayHandler";
-export * from "./gateway/Websocket";
+export * from "./gateway/WebSocket";
 
 export const VERSION = pkgJSON.version;
