@@ -84,7 +84,7 @@ import { DocChannel } from "./structures/DocChannel";
 import { CalendarChannel } from "./structures/CalendarChannel";
 
 export interface ClientOptions {
-    collectionLimits: CollectionLimits;
+    collectionLimits?: CollectionLimits;
     compress?: boolean;
     reconnect?: boolean;
     reconnectAttemptLimit?: number;
@@ -161,7 +161,7 @@ export class Client extends TypedEmitter<ClientEvents> {
      * @param token The token of the client
      * @param options The options for the client
      */
-    public constructor(token: string, options: ClientOptions) {
+    public constructor(token: string, options?: ClientOptions) {
         if (!token) {
             throw new Error("No token provided");
         }
