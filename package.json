@@ -1,6 +1,6 @@
 {
   "name": "hoshii",
-  "version": "0.1.0",
+  "version": "0.1.1-dev",
   "description": "A NodeJS Guilded Library",
   "main": "src/lib/index.js",
   "engines": {
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/helloreindev/hoshii#readme",
   "dependencies": {
-    "undici": "^5.14.0",
+    "undici": "^5.21.0",
     "ws": "^8.11.0"
   },
   "devDependencies": {
