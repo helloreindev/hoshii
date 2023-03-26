@@ -224,7 +224,7 @@ export class ChatMessage<
     }
 
     /**
-     * The kmember that created the message
+     * The member that created the message
      */
     public get member(): T extends Server
         ? ServerMember
